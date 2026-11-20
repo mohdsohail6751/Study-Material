@@ -1,1 +1,776 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Speaking Tracker</title>
+<style>
+:root{
+  --bg:#f5f6fa;--card:#ffffff;--text:#1c2333;--muted:#667085;--line:#e3e6ee;
+  --brand:#4f46e5;--brand-ink:#ffffff;--brand-soft:#eceeff;
+  --ok:#15803d;--warn:#b45309;--bad:#b91c1c;
+  --s0bg:#e8eaf0;--s0fg:#475066;
+  --s1bg:#fdeab0;--s1fg:#7a4a00;
+  --s2bg:#cfe3ff;--s2fg:#12427f;
+  --s3bg:#bdf0cf;--s3fg:#0d5a2b;
+  --c-speaking:#4f46e5;--c-listening:#0e7490;--c-pronunciation:#c2410c;--c-confidence:#15803d;
+  --radius:14px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#10131c;--card:#1a1f2d;--text:#e8ebf3;--muted:#98a2b8;--line:#2a3144;
+    --brand:#8b85ff;--brand-ink:#10131c;--brand-soft:#262b4a;
+    --ok:#5fd68a;--warn:#f0b24d;--bad:#f28b8b;
+    --s0bg:#2a3144;--s0fg:#b4bdd1;
+    --s1bg:#4a3a10;--s1fg:#fbd77a;
+    --s2bg:#1c3a63;--s2fg:#a9cdff;
+    --s3bg:#15472b;--s3fg:#9be9b5;
+    --c-speaking:#9a95ff;--c-listening:#4fc3dc;--c-pronunciation:#ff9a5c;--c-confidence:#5fd68a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10131c;--card:#1a1f2d;--text:#e8ebf3;--muted:#98a2b8;--line:#2a3144;
+  --brand:#8b85ff;--brand-ink:#10131c;--brand-soft:#262b4a;
+  --ok:#5fd68a;--warn:#f0b24d;--bad:#f28b8b;
+  --s0bg:#2a3144;--s0fg:#b4bdd1;
+  --s1bg:#4a3a10;--s1fg:#fbd77a;
+  --s2bg:#1c3a63;--s2fg:#a9cdff;
+  --s3bg:#15472b;--s3fg:#9be9b5;
+  --c-speaking:#9a95ff;--c-listening:#4fc3dc;--c-pronunciation:#ff9a5c;--c-confidence:#5fd68a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:0}
+h2{font-size:17px;margin:0 0 10px}
+h3{font-size:15px;margin:0 0 6px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+header.top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.student-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,input,textarea,button{font:inherit;color:inherit}
+select,input[type=text],input[type=number],input[type=date],textarea{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+textarea{resize:vertical;min-height:70px}
+select{width:auto;min-width:160px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+.btn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:600}
+.btn:hover{border-color:var(--brand)}
+.btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:4px 10px;font-size:13px}
+nav.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:thin}
+nav.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:600;color:var(--muted)}
+nav.tabs button[aria-selected=true]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.grid{display:grid;gap:12px}
+.stats{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
+.stat .v{font-size:26px;font-weight:700;line-height:1.2}
+.stat .l{font-size:13px;color:var(--muted)}
+.row2{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.bar{height:10px;border-radius:99px;background:var(--s0bg);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--brand);border-radius:99px}
+.stage-row{display:grid;grid-template-columns:minmax(120px,240px) 1fr 52px;gap:10px;align-items:center;margin:8px 0}
+.chip{border:0;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.chip.s0{background:var(--s0bg);color:var(--s0fg)}
+.chip.s1{background:var(--s1bg);color:var(--s1fg)}
+.chip.s2{background:var(--s2bg);color:var(--s2fg)}
+.chip.s3{background:var(--s3bg);color:var(--s3fg)}
+.skill{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.skill:first-of-type{border-top:0}
+.rating{display:flex;gap:6px;flex-wrap:wrap}
+.rating button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-weight:700}
+.rating button[aria-pressed=true]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.hint{font-size:12px;color:var(--muted);min-height:18px;margin-top:2px}
+.session{border-top:1px solid var(--line);padding:12px 0}
+.session:first-child{border-top:0}
+.session-head{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pill{font-size:12px;border-radius:99px;padding:2px 10px;background:var(--brand-soft);color:var(--brand);font-weight:600}
+.pill.ok{background:var(--s3bg);color:var(--s3fg)}
+.pill.warn{background:var(--s1bg);color:var(--s1fg)}
+.pill.bad{background:#fbd5d5;color:#7f1d1d}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pill.bad{background:#4a1d1d;color:#ffb4b4}}
+:root[data-theme="dark"] .pill.bad{background:#4a1d1d;color:#ffb4b4}
+.notes{margin-top:6px;font-size:14px;white-space:pre-wrap}
+.err{color:var(--bad);font-size:13px;min-height:18px}
+.banner{background:var(--s1bg);color:var(--s1fg);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-weight:600}
+.empty{text-align:center;padding:40px 16px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+svg.chart{width:100%;height:auto;display:block}
+svg .ax{fill:var(--muted);font-size:11px}
+svg .gl{stroke:var(--line);stroke-width:1}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:8px 6px;border-top:1px solid var(--line);vertical-align:middle}
+th{font-size:12px;color:var(--muted);border-top:0}
+.tablewrap{overflow-x:auto}
+dialog{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);color:var(--text);padding:20px;width:min(440px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.field{margin-bottom:12px}
+.actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:99px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+.print-only{display:none}
+@media print{
+  body{background:#fff;color:#000}
+  .no-print,nav.tabs,.student-bar,.btn{display:none!important}
+  .print-only{display:block}
+  .card,.stat{break-inside:avoid;border-color:#bbb}
+}
+@media (max-width:520px){
+  .stage-row{grid-template-columns:1fr 52px}
+  .stage-row .bar{grid-column:1/3;order:3}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top no-print">
+    <div>
+      <h1>English Speaking Tracker</h1>
+      <div class="muted small">Teacher ka progress diary &mdash; zero se fluent tak</div>
+    </div>
+    <div class="student-bar">
+      <label for="studentSel" class="muted small" style="margin:0">Student</label>
+      <select id="studentSel" aria-label="Select student"></select>
+      <button class="btn" data-act="new-student">+ Naya student</button>
+    </div>
+  </header>
+
+  <div id="banner"></div>
+  <nav class="tabs no-print" id="tabs" role="tablist" aria-label="Sections"></nav>
+  <main id="main"></main>
+</div>
+
+<dialog id="studentDlg">
+  <form data-form="student" method="dialog">
+    <h2 id="dlgTitle">Naya student</h2>
+    <div class="field"><label for="f-name">Naam *</label><input type="text" id="f-name" name="name" required maxlength="80"></div>
+    <div class="field"><label for="f-start">Shuru karne ki date</label><input type="date" id="f-start" name="start"></div>
+    <div class="field"><label for="f-goal">Goal (kyun seekhna hai?)</label><input type="text" id="f-goal" name="goal" maxlength="200" placeholder="e.g. Job interview, travel, daily baat-cheet"></div>
+    <div class="field"><label for="f-notes">Student ke baare mein notes</label><textarea id="f-notes" name="notes" maxlength="1000" placeholder="Mother tongue, age, kitna time deta hai, dar kis cheez ka hai..."></textarea></div>
+    <div class="actions">
+      <button class="btn" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn primary" value="ok">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+
+/* ---------- Curriculum (editable here if you want to change topics) ---------- */
+const STAGES = [
+  {id:'st1', title:'Stage 1 · Alphabet & Sounds', hint:'English ke letters aur unki awaaz', skills:[
+    ['a1','Capital letters A–Z pehchanna'],['a2','Small letters a–z pehchanna'],
+    ['a3','Har letter ki sound (phonics: a=ae, b=buh...)'],['a4','Vowels A E I O U'],
+    ['a5','Apna naam spell karna'],['a6','Simple 3-letter words padhna (cat, pen, sun)']]},
+  {id:'st2', title:'Stage 2 · Numbers & Basics', hint:'Ginti, din, mahine, rang', skills:[
+    ['b1','Numbers 1–10'],['b2','Numbers 11–100'],['b3','Days of the week'],
+    ['b4','Months of the year'],['b5','Colours'],['b6','Time bolna (it is 5 o\'clock)']]},
+  {id:'st3', title:'Stage 3 · Greetings & Introduction', hint:'Milna-julna, apna parichay', skills:[
+    ['c1','Hello / Good morning / Good night / Bye'],['c2','How are you? — I am fine'],
+    ['c3','My name is ...'],['c4','I am from ... / I live in ...'],
+    ['c5','Please / Thank you / Sorry / Excuse me'],['c6','Apna 5-line introduction bolna']]},
+  {id:'st4', title:'Stage 4 · Everyday Words', hint:'Roz ke kaam ke words', skills:[
+    ['d1','Family members'],['d2','Body parts'],['d3','Food & drinks'],
+    ['d4','Ghar ki cheezein (house things)'],['d5','Animals'],['d6','Common verbs (go, eat, drink, sleep, come...)'],
+    ['d7','Opposites (big-small, hot-cold)']]},
+  {id:'st5', title:'Stage 5 · Simple Sentences', hint:'Chhote-chhote poore sentences', skills:[
+    ['e1','I am / You are / He is / She is'],['e2','This is / That is'],['e3','I have / I do not have'],
+    ['e4','I like / I do not like'],['e5','I want / I need'],['e6','Is / Are / Am ka sahi use']]},
+  {id:'st6', title:'Stage 6 · Questions', hint:'Sawal poochna seekhna', skills:[
+    ['f1','What / Where / Who'],['f2','When / Why / How'],['f3','Yes / No questions (Do you...? Is it...?)'],
+    ['f4','Question ka seedha jawab dena'],['f5','Samajh na aaye to bolna: "Please say again"']]},
+  {id:'st7', title:'Stage 7 · Daily Conversation', hint:'Asli zindagi ki situations', skills:[
+    ['g1','Apna daily routine bolna'],['g2','Shop par (How much is this?)'],['g3','Restaurant par order dena'],
+    ['g4','Rasta poochna / batana'],['g5','Phone par basic baat'],['g6','Past tense (I went, I ate)'],
+    ['g7','Future (I will go, I am going to)']]},
+  {id:'st8', title:'Stage 8 · Fluency & Confidence', hint:'Bina ruke, bina jhijhak bolna', skills:[
+    ['h1','1 minute bina ruke bolna'],['h2','Chhoti kahani sunana'],['h3','Apni raay dena (I think...)'],
+    ['h4','5 minute free conversation'],['h5','Bina Hindi/Urdu mix kiye 10 sentences'],['h6','Naye insaan se English mein baat']]}
+];
+
+const LABELS = {
+  speaking:'Speaking (bolna)',
+  listening:'Listening (sunke samajhna)',
+  pronunciation:'Pronunciation (sahi uchcharan)',
+  confidence:'Confidence (jhijhak khatam)'
+};
+const KEYS = Object.keys(LABELS);
+const RATE_HINT = ['', '1 · Bahut kamzor', '2 · Kamzor', '3 · Theek-thaak', '4 · Accha', '5 · Bahut accha'];
+const SKILL_LABEL = ['Shuru nahi', 'Seekh raha hai', 'Practice chal rahi', 'Pakka ✔'];
+const WORD_LABEL = ['Seekh raha', 'Yaad hai', 'Bolne mein use karta hai'];
+const HW = {done:'Homework: Done', partly:'Homework: Adha', no:'Homework: Nahi kiya', na:'Homework: Diya nahi'};
+const HW_CLASS = {done:'ok', partly:'warn', no:'bad', na:''};
+const TABS = [['dash','Dashboard'],['skills','Skills Checklist'],['sessions','Class Log'],['words','Words'],['more','Backup & Settings']];
+
+/* ---------- Helpers ---------- */
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+const isoOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const today = () => isoOf(new Date());
+const okDate = s => /^\d{4}-\d{2}-\d{2}$/.test(String(s));
+const parseD = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+const fmtDate = s => okDate(s) ? parseD(s).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}) : s;
+const fmtShort = s => okDate(s) ? parseD(s).toLocaleDateString('en-GB', {day:'numeric', month:'short'}) : s;
+const daysBetween = (a, b) => Math.round((parseD(a) - parseD(b)) / 86400000);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const num = v => Number.isFinite(Number(v)) ? Number(v) : 0;
+const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+
+/* ---------- Storage ---------- */
+const KEY = 'englishSpeakingTracker.v1';
+let storageOK = true;
+
+function normStudent(s) {
+  s = s && typeof s === 'object' ? s : {};
+  const skills = {};
+  if (s.skills && typeof s.skills === 'object' && !Array.isArray(s.skills)) {
+    for (const [k, v] of Object.entries(s.skills)) skills[k] = clamp(Math.round(num(v)), 0, 3);
+  }
+  const sessions = (Array.isArray(s.sessions) ? s.sessions : []).filter(x => x && typeof x === 'object').map(x => ({
+    id: String(x.id || uid()),
+    date: okDate(x.date) ? x.date : today(),
+    minutes: Math.max(0, Math.round(num(x.minutes))),
+    topic: String(x.topic || ''),
+    newWords: Math.max(0, Math.round(num(x.newWords))),
+    homework: ['done','partly','no','na'].includes(x.homework) ? x.homework : 'na',
+    speaking: clamp(Math.round(num(x.speaking)), 1, 5),
+    listening: clamp(Math.round(num(x.listening)), 1, 5),
+    pronunciation: clamp(Math.round(num(x.pronunciation)), 1, 5),
+    confidence: clamp(Math.round(num(x.confidence)), 1, 5),
+    notes: String(x.notes || ''),
+    next: String(x.next || '')
+  }));
+  const words = (Array.isArray(s.words) ? s.words : []).filter(x => x && typeof x === 'object').map(x => ({
+    id: String(x.id || uid()),
+    word: String(x.word || '').trim(),
+    meaning: String(x.meaning || ''),
+    example: String(x.example || ''),
+    status: clamp(Math.round(num(x.status)), 0, 2),
+    added: okDate(x.added) ? x.added : today()
+  })).filter(w => w.word);
+  return {
+    id: String(s.id || uid()),
+    name: String(s.name || 'Student'),
+    start: okDate(s.start) ? s.start : today(),
+    goal: String(s.goal || ''),
+    notes: String(s.notes || ''),
+    skills, sessions, words
+  };
+}
+function normDb(d) {
+  const students = (d && Array.isArray(d.students) ? d.students : []).map(normStudent);
+  const activeId = students.some(s => s.id === (d && d.activeId)) ? d.activeId : (students[0] ? students[0].id : null);
+  return {students, activeId};
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) return normDb(JSON.parse(raw));
+  } catch (e) { /* fall through */ }
+  try { localStorage.setItem(KEY + '.probe', '1'); localStorage.removeItem(KEY + '.probe'); }
+  catch (e) { storageOK = false; }
+  return {students: [], activeId: null};
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(db)); storageOK = true; }
+  catch (e) { storageOK = false; renderBanner(); }
+}
+let db = load();
+
+/* ---------- UI state ---------- */
+let tab = 'dash';
+let editingSession = null;
+let formRatings = {speaking:0, listening:0, pronunciation:0, confidence:0};
+let wordFilter = '';
+let dlgMode = 'new';
+
+const active = () => db.students.find(s => s.id === db.activeId) || null;
+
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ---------- Calculations ---------- */
+function sortedSessions(st) {
+  return [...st.sessions].sort((a, b) => a.date === b.date ? a.id.localeCompare(b.id) : a.date.localeCompare(b.date));
+}
+function sessionAvg(x) { return avg(KEYS.map(k => x[k])); }
+function streakOf(sessions) {
+  const set = new Set(sessions.map(s => s.date));
+  const d = new Date();
+  if (!set.has(isoOf(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (set.has(isoOf(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function skillStats(st) {
+  let total = 0, points = 0, mastered = 0;
+  const stages = STAGES.map(g => {
+    let p = 0, m = 0;
+    g.skills.forEach(([id]) => { const v = st.skills[id] || 0; p += v; if (v === 3) m++; });
+    total += g.skills.length; points += p; mastered += m;
+    return {g, done: m, count: g.skills.length, pct: Math.round(p / (3 * g.skills.length) * 100)};
+  });
+  return {total, mastered, pct: Math.round(points / (3 * total) * 100), stages};
+}
+function levelName(pct) {
+  if (pct < 8) return 'Absolute Beginner (zero)';
+  if (pct < 30) return 'Beginner';
+  if (pct < 60) return 'Elementary';
+  if (pct < 85) return 'Pre-Intermediate';
+  return 'Intermediate';
+}
+
+/* ---------- Rendering ---------- */
+function renderBanner() {
+  $('#banner').innerHTML = storageOK ? '' :
+    '<div class="banner no-print">Browser storage band hai, isliye data save nahi hoga. Kaam ke baad "Backup & Settings" se Export zaroor karein.</div>';
+}
+function renderBar() {
+  const sel = $('#studentSel');
+  sel.innerHTML = db.students.map(s => `<option value="${esc(s.id)}"${s.id === db.activeId ? ' selected' : ''}>${esc(s.name)}</option>`).join('')
+    || '<option>— koi student nahi —</option>';
+  sel.disabled = !db.students.length;
+  $('#tabs').innerHTML = TABS.map(([id, label]) =>
+    `<button role="tab" data-act="tab" data-id="${id}" aria-selected="${tab === id}">${label}</button>`).join('');
+  $('#tabs').style.display = db.students.length ? '' : 'none';
+}
+function render() {
+  const y = window.scrollY;
+  renderBanner();
+  renderBar();
+  const st = active();
+  const main = $('#main');
+  if (!st) {
+    main.innerHTML = `<div class="card empty">
+      <h2>Swagat hai, Teacher!</h2>
+      <p class="muted">Sabse pehle apne student ka profile banayein. Phir yahan uski poori progress track hogi.</p>
+      <button class="btn primary" data-act="new-student">+ Pehla student add karo</button></div>`;
+    return;
+  }
+  main.innerHTML = {dash: dashHTML, skills: skillsHTML, sessions: sessionsHTML, words: wordsHTML, more: moreHTML}[tab](st);
+  window.scrollTo(0, y);
+}
+
+function statHTML(v, l) { return `<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`; }
+
+function dashHTML(st) {
+  const ss = sortedSessions(st);
+  const sk = skillStats(st);
+  const mins = ss.reduce((a, s) => a + s.minutes, 0);
+  const known = st.words.filter(w => w.status >= 1).length;
+  const last = ss[ss.length - 1];
+  const t = today();
+  const week = ss.filter(s => daysBetween(t, s.date) >= 0 && daysBetween(t, s.date) < 7);
+  const hwGiven = ss.filter(s => s.homework !== 'na');
+  const hwRate = hwGiven.length ? Math.round(hwGiven.filter(s => s.homework === 'done').length / hwGiven.length * 100) + '%' : '—';
+  const sinceLast = last ? daysBetween(t, last.date) : null;
+  const sinceTxt = last === undefined ? '—' : sinceLast <= 0 ? 'Aaj' : sinceLast === 1 ? 'Kal' : sinceLast + ' din pehle';
+
+  // improvement
+  let trend = '<span class="muted">Kam se kam 2 sessions chahiye</span>';
+  if (ss.length >= 2) {
+    const k = Math.min(3, Math.floor(ss.length / 2));
+    const first = avg(ss.slice(0, k).map(sessionAvg)), lastA = avg(ss.slice(-k).map(sessionAvg));
+    const d = lastA - first;
+    const cls = d > 0.05 ? 'ok' : d < -0.05 ? 'bad' : 'warn';
+    const arrow = d > 0.05 ? '▲' : d < -0.05 ? '▼' : '■';
+    trend = `<span class="pill ${cls}">${arrow} ${d >= 0 ? '+' : ''}${d.toFixed(1)}</span> <span class="muted small">(pehle ${first.toFixed(1)} → ab ${lastA.toFixed(1)} / 5)</span>`;
+  }
+  // focus area
+  let focus = '<span class="muted">Sessions add karein, phir yahan batayega kahan mehnat chahiye.</span>';
+  if (ss.length) {
+    const recent = ss.slice(-5);
+    const means = KEYS.map(k => [k, avg(recent.map(s => s[k]))]).sort((a, b) => a[1] - b[1]);
+    focus = `Is waqt sabse zyada focus: <b>${esc(LABELS[means[0][0]])}</b> (avg ${means[0][1].toFixed(1)}/5). Sabse strong: ${esc(LABELS[means[3][0]])} (${means[3][1].toFixed(1)}/5).`;
+  }
+  const curStage = sk.stages.find(x => x.done < x.count);
+  const stageTxt = curStage ? curStage.g.title : 'Saare stages complete!';
+  const lastNext = last && last.next ? `<div class="card"><h2>Agle class ka plan</h2><div class="notes">${esc(last.next)}</div></div>` : '';
+
+  return `
+  <div class="print-only"><h1>${esc(st.name)} — English Progress Report</h1><div class="small">${esc(fmtDate(t))}</div></div>
+  <div class="card">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:flex-start">
+      <div>
+        <h2 style="margin-bottom:2px">${esc(st.name)}</h2>
+        <div class="muted small">Shuru: ${esc(fmtDate(st.start))}${st.goal ? ' · Goal: ' + esc(st.goal) : ''}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="small muted">Current level</div>
+        <div style="font-weight:700;font-size:17px">${esc(levelName(sk.pct))}</div>
+      </div>
+    </div>
+    <div style="margin-top:12px">
+      <div class="small muted" style="display:flex;justify-content:space-between"><span>Overall course progress</span><span>${sk.pct}%</span></div>
+      <div class="bar" role="progressbar" aria-valuenow="${sk.pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${sk.pct}%"></i></div>
+      <div class="small muted" style="margin-top:6px">Abhi chal raha hai: ${esc(stageTxt)}</div>
+    </div>
+  </div>
+
+  <div class="grid stats" style="margin-bottom:14px">
+    ${statHTML(ss.length, 'Total classes')}
+    ${statHTML((mins / 60).toFixed(1) + ' h', 'Total padhai ka time')}
+    ${statHTML(week.length + ' <span class="small muted">/ ' + week.reduce((a, s) => a + s.minutes, 0) + ' min</span>', 'Pichle 7 din')}
+    ${statHTML(streakOf(ss) + ' din', 'Lagatar classes (streak)')}
+    ${statHTML(sinceTxt, 'Last class')}
+    ${statHTML(known, 'Words yaad hain')}
+    ${statHTML(sk.mastered + '/' + sk.total, 'Skills pakki')}
+    ${statHTML(hwRate, 'Homework completion')}
+  </div>
+
+  <div class="grid row2" style="margin-bottom:14px">
+    <div class="card" style="margin:0"><h3>Improvement</h3>${trend}</div>
+    <div class="card" style="margin:0"><h3>Teacher ke liye suggestion</h3><div class="small">${focus}</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Ratings ka graph (har class ke baad)</h2>
+    ${chartHTML(ss)}
+  </div>
+
+  <div class="card">
+    <h2>Stage-wise progress</h2>
+    ${sk.stages.map(x => `<div class="stage-row">
+      <div><b class="small">${esc(x.g.title)}</b></div>
+      <div class="bar"><i style="width:${x.pct}%"></i></div>
+      <div class="small muted" style="text-align:right">${x.done}/${x.count}</div></div>`).join('')}
+  </div>
+  ${lastNext}
+  <div class="no-print" style="text-align:right"><button class="btn" data-act="print">Progress report print karo</button></div>`;
+}
+
+function chartHTML(ss) {
+  if (!ss.length) return '<p class="muted">Abhi koi class log nahi hai. "Class Log" tab mein pehla session add karein.</p>';
+  const data = ss.slice(-20);
+  const W = 640, H = 250, L = 30, R = 12, T = 12, B = 30;
+  const iw = W - L - R, ih = H - T - B, n = data.length;
+  const x = i => n === 1 ? L + iw / 2 : L + i * iw / (n - 1);
+  const y = v => T + ih * (1 - (v - 1) / 4);
+  let g = '';
+  for (let v = 1; v <= 5; v++) g += `<line class="gl" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  const ticks = n <= 6 ? data.map((_, i) => i) : [0, Math.floor((n - 1) / 2), n - 1];
+  const xl = ticks.map(i => `<text class="ax" x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 && n > 1 ? 'start' : i === n - 1 && n > 1 ? 'end' : 'middle'}">${esc(fmtShort(data[i].date))}</text>`).join('');
+  const series = KEYS.map(k => {
+    const pts = data.map((d, i) => `${x(i).toFixed(1)},${y(d[k]).toFixed(1)}`).join(' ');
+    const dots = data.map((d, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(d[k]).toFixed(1)}" r="3.5" fill="var(--c-${k})"><title>${esc(fmtDate(d.date))} · ${esc(LABELS[k])}: ${d[k]}/5</title></circle>`).join('');
+    return (n > 1 ? `<polyline points="${pts}" fill="none" stroke="var(--c-${k})" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>` : '') + dots;
+  }).join('');
+  const legend = KEYS.map(k => `<span><i style="background:var(--c-${k})"></i>${esc(LABELS[k])}</span>`).join('');
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Line chart of the last ${n} sessions' ratings out of 5">${g}${xl}${series}</svg><div class="legend">${legend}</div>
+    ${data.length < ss.length ? `<div class="small muted">Sirf last 20 classes dikh rahi hain.</div>` : ''}`;
+}
+
+function skillsHTML(st) {
+  const sk = skillStats(st);
+  return `<div class="card">
+    <div class="legend" style="margin:0 0 4px">Skill par click karo, status badalta rahega:
+      ${SKILL_LABEL.map((l, i) => `<span class="chip s${i}" style="cursor:default">${l}</span>`).join('')}</div>
+  </div>` + sk.stages.map(x => `<div class="card">
+    <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
+      <div><h2 style="margin-bottom:0">${esc(x.g.title)}</h2><div class="muted small">${esc(x.g.hint)}</div></div>
+      <div class="small muted">${x.done}/${x.count} pakki · ${x.pct}%</div>
+    </div>
+    <div class="bar" style="margin:10px 0 4px"><i style="width:${x.pct}%"></i></div>
+    ${x.g.skills.map(([id, label]) => { const v = st.skills[id] || 0; return `<div class="skill">
+      <span>${esc(label)}</span>
+      <button class="chip s${v}" data-act="skill" data-id="${id}" aria-label="${esc(label)}: ${SKILL_LABEL[v]}. Badalne ke liye click karein">${SKILL_LABEL[v]}</button></div>`; }).join('')}
+  </div>`).join('');
+}
+
+function ratingGroup(key) {
+  const cur = formRatings[key];
+  return `<div class="field"><label>${esc(LABELS[key])}</label>
+    <div class="rating" data-key="${key}">${[1,2,3,4,5].map(n => `<button type="button" data-act="rate" data-key="${key}" data-val="${n}" aria-pressed="${cur === n}" aria-label="${esc(LABELS[key])} ${RATE_HINT[n]}">${n}</button>`).join('')}</div>
+    <div class="hint" data-hint="${key}">${cur ? RATE_HINT[cur] : ''}</div></div>`;
+}
+
+function sessionsHTML(st) {
+  const ed = editingSession ? st.sessions.find(s => s.id === editingSession) : null;
+  const v = ed || {date: today(), minutes: 30, topic: '', newWords: 0, homework: 'na', notes: '', next: ''};
+  const list = sortedSessions(st).reverse();
+  return `<div class="card">
+    <h2>${ed ? 'Class edit karo' : 'Aaj ki class likho'}</h2>
+    <form data-form="session" novalidate>
+      <div class="grid row2">
+        <div class="field"><label for="s-date">Date</label><input type="date" id="s-date" name="date" value="${esc(v.date)}" required></div>
+        <div class="field"><label for="s-min">Kitne minute</label><input type="number" id="s-min" name="minutes" min="1" max="600" value="${esc(v.minutes)}" required></div>
+        <div class="field"><label for="s-new">Naye words sikhaye</label><input type="number" id="s-new" name="newWords" min="0" max="500" value="${esc(v.newWords)}"></div>
+        <div class="field"><label for="s-hw">Pichla homework</label>
+          <select id="s-hw" name="homework" style="width:100%">${Object.entries(HW).map(([k, l]) => `<option value="${k}"${v.homework === k ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
+      </div>
+      <div class="field"><label for="s-topic">Aaj kya padhaya? *</label><input type="text" id="s-topic" name="topic" maxlength="200" value="${esc(v.topic)}" placeholder="e.g. Letters A–F ki sound, My name is..." required></div>
+      <div class="grid row2">${KEYS.map(ratingGroup).join('')}</div>
+      <div class="field"><label for="s-notes">Teacher notes (kya accha hua, kahan galti hui)</label><textarea id="s-notes" name="notes" maxlength="2000">${esc(v.notes)}</textarea></div>
+      <div class="field"><label for="s-next">Agle class ka plan / homework</label><textarea id="s-next" name="next" maxlength="1000">${esc(v.next)}</textarea></div>
+      <div class="err" id="sessErr" role="alert"></div>
+      <div class="actions">
+        ${ed ? '<button type="button" class="btn" data-act="cancel-edit">Cancel</button>' : ''}
+        <button class="btn primary" type="submit">${ed ? 'Update karo' : 'Class save karo'}</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Pichli classes (${list.length})</h2>
+    ${list.length ? list.map(s => `<div class="session">
+      <div class="session-head">
+        <div><b>${esc(fmtDate(s.date))}</b> · ${s.minutes} min · <span class="muted">${esc(s.topic)}</span></div>
+        <div><button class="btn sm" data-act="edit-session" data-id="${esc(s.id)}">Edit</button>
+             <button class="btn sm danger" data-act="del-session" data-id="${esc(s.id)}">Delete</button></div>
+      </div>
+      <div class="pills">
+        <span class="pill">Avg ${sessionAvg(s).toFixed(1)}/5</span>
+        ${KEYS.map(k => `<span class="pill">${esc(LABELS[k].split(' ')[0])} ${s[k]}</span>`).join('')}
+        ${s.newWords ? `<span class="pill">+${s.newWords} words</span>` : ''}
+        <span class="pill ${HW_CLASS[s.homework]}">${HW[s.homework]}</span>
+      </div>
+      ${s.notes ? `<div class="notes">${esc(s.notes)}</div>` : ''}
+      ${s.next ? `<div class="notes muted"><b>Next:</b> ${esc(s.next)}</div>` : ''}
+    </div>`).join('') : '<p class="muted">Abhi koi class nahi likhi.</p>'}
+  </div>`;
+}
+
+function wordsHTML(st) {
+  const q = wordFilter.trim().toLowerCase();
+  const list = [...st.words].reverse().filter(w => !q || w.word.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q));
+  const counts = [0, 1, 2].map(i => st.words.filter(w => w.status === i).length);
+  return `<div class="card">
+    <h2>Naya word add karo</h2>
+    <form data-form="word" class="grid row2" novalidate>
+      <div class="field"><label for="w-word">English word *</label><input type="text" id="w-word" name="word" maxlength="60" required placeholder="apple"></div>
+      <div class="field"><label for="w-mean">Matlab (Hindi/Urdu)</label><input type="text" id="w-mean" name="meaning" maxlength="100" placeholder="seb"></div>
+      <div class="field" style="grid-column:1/-1"><label for="w-ex">Example sentence (optional)</label><input type="text" id="w-ex" name="example" maxlength="200" placeholder="I eat an apple."></div>
+      <div class="actions" style="grid-column:1/-1"><button class="btn primary" type="submit">Add word</button></div>
+    </form>
+    <details style="margin-top:8px"><summary class="small" style="cursor:pointer;font-weight:600">Ek saath bahut saare words add karo</summary>
+      <form data-form="bulk" style="margin-top:8px" novalidate>
+        <label for="w-bulk">Har line mein ek word: <code>apple = seb</code></label>
+        <textarea id="w-bulk" name="bulk" rows="5" placeholder="apple = seb&#10;book = kitab&#10;water = paani"></textarea>
+        <div class="actions" style="margin-top:8px"><button class="btn primary" type="submit">Sab add karo</button></div>
+      </form></details>
+  </div>
+  <div class="card">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <h2 style="margin:0">Word list (${st.words.length})</h2>
+      <div class="small muted">Seekh raha: ${counts[0]} · Yaad hai: ${counts[1]} · Bolta hai: ${counts[2]}</div>
+    </div>
+    <input type="text" id="w-search" placeholder="Search word ya matlab..." value="${esc(wordFilter)}" aria-label="Search words" style="margin-bottom:8px">
+    ${list.length ? `<div class="tablewrap"><table>
+      <thead><tr><th>Word</th><th>Matlab</th><th>Status (click karo)</th><th></th></tr></thead>
+      <tbody>${list.map(w => `<tr>
+        <td><b>${esc(w.word)}</b>${w.example ? `<div class="small muted">${esc(w.example)}</div>` : ''}</td>
+        <td>${esc(w.meaning)}</td>
+        <td><button class="chip s${w.status === 0 ? 1 : w.status === 1 ? 2 : 3}" data-act="word-status" data-id="${esc(w.id)}">${WORD_LABEL[w.status]}</button></td>
+        <td><button class="btn sm danger" data-act="del-word" data-id="${esc(w.id)}" aria-label="Delete ${esc(w.word)}">✕</button></td></tr>`).join('')}</tbody>
+    </table></div>` : `<p class="muted">${st.words.length ? 'Koi match nahi mila.' : 'Abhi koi word nahi. Upar se add karein.'}</p>`}
+  </div>`;
+}
+
+function moreHTML(st) {
+  return `<div class="card">
+    <h2>Student profile</h2>
+    <p><b>${esc(st.name)}</b><br><span class="muted small">Shuru: ${esc(fmtDate(st.start))}${st.goal ? '<br>Goal: ' + esc(st.goal) : ''}${st.notes ? '<br>Notes: ' + esc(st.notes) : ''}</span></p>
+    <button class="btn" data-act="edit-student">Profile edit karo</button>
+  </div>
+  <div class="card">
+    <h2>Backup (zaroor lein!)</h2>
+    <p class="muted small">Data sirf is browser mein save hota hai. Browser data clear karne ya computer badalne par ye ud jayega. Hafte mein ek baar Export karke file Google Drive / WhatsApp par save kar lein.</p>
+    <div class="actions" style="justify-content:flex-start">
+      <button class="btn primary" data-act="export">Backup download karo (.json)</button>
+      <label class="btn" style="margin:0;cursor:pointer">Backup wapas lao
+        <input type="file" id="importFile" accept="application/json,.json" style="display:none"></label>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Theme</h2>
+    <div class="actions" style="justify-content:flex-start">
+      <button class="btn" data-act="theme" data-id="auto">Auto</button>
+      <button class="btn" data-act="theme" data-id="light">Light</button>
+      <button class="btn" data-act="theme" data-id="dark">Dark</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Danger zone</h2>
+    <button class="btn danger" data-act="del-student">Is student ka poora data delete karo</button>
+  </div>`;
+}
+
+/* ---------- Actions ---------- */
+const actions = {
+  'tab': b => { tab = b.dataset.id; render(); },
+  'new-student': () => openStudentDlg('new'),
+  'edit-student': () => openStudentDlg('edit'),
+  'skill': b => {
+    const st = active(); const id = b.dataset.id;
+    st.skills[id] = ((st.skills[id] || 0) + 1) % 4; save(); render();
+  },
+  'rate': b => {
+    const k = b.dataset.key, n = Number(b.dataset.val);
+    formRatings[k] = n;
+    document.querySelectorAll(`.rating[data-key="${k}"] button`).forEach(x => x.setAttribute('aria-pressed', String(Number(x.dataset.val) === n)));
+    $(`[data-hint="${k}"]`).textContent = RATE_HINT[n];
+  },
+  'edit-session': b => {
+    const s = active().sessions.find(x => x.id === b.dataset.id); if (!s) return;
+    editingSession = s.id;
+    formRatings = {speaking: s.speaking, listening: s.listening, pronunciation: s.pronunciation, confidence: s.confidence};
+    render(); window.scrollTo(0, 0);
+  },
+  'cancel-edit': () => { editingSession = null; resetRatings(); render(); },
+  'del-session': b => {
+    if (!confirm('Is class ko delete karna hai?')) return;
+    const st = active(); st.sessions = st.sessions.filter(x => x.id !== b.dataset.id);
+    if (editingSession === b.dataset.id) { editingSession = null; resetRatings(); }
+    save(); render();
+  },
+  'word-status': b => {
+    const w = active().words.find(x => x.id === b.dataset.id); if (!w) return;
+    w.status = (w.status + 1) % 3; save(); render();
+  },
+  'del-word': b => {
+    const st = active(); st.words = st.words.filter(x => x.id !== b.dataset.id); save(); render();
+  },
+  'del-student': () => {
+    const st = active();
+    if (!confirm(`"${st.name}" ka saara data (classes, words, skills) hamesha ke liye delete ho jayega. Pehle backup le liya hai?`)) return;
+    if (!confirm('Pakka delete karna hai? Ye wapas nahi aayega.')) return;
+    db.students = db.students.filter(s => s.id !== st.id);
+    db.activeId = db.students[0] ? db.students[0].id : null;
+    tab = 'dash'; save(); render(); toast('Student delete ho gaya');
+  },
+  'export': () => {
+    const blob = new Blob([JSON.stringify(db, null, 2)], {type: 'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = `english-tracker-backup-${today()}.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast('Backup download ho gaya');
+  },
+  'theme': b => {
+    const t = b.dataset.id;
+    if (t === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', t);
+    try { t === 'auto' ? localStorage.removeItem(KEY + '.theme') : localStorage.setItem(KEY + '.theme', t); } catch (e) { /* ignore */ }
+  },
+  'print': () => window.print()
+};
+function resetRatings() { formRatings = {speaking: 0, listening: 0, pronunciation: 0, confidence: 0}; }
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (b && actions[b.dataset.act]) actions[b.dataset.act](b, e);
+});
+
+/* ---------- Forms ---------- */
+const dlg = $('#studentDlg');
+function openStudentDlg(mode) {
+  dlgMode = mode;
+  const st = mode === 'edit' ? active() : null;
+  $('#dlgTitle').textContent = st ? 'Profile edit karo' : 'Naya student';
+  $('#f-name').value = st ? st.name : '';
+  $('#f-start').value = st ? st.start : today();
+  $('#f-goal').value = st ? st.goal : '';
+  $('#f-notes').value = st ? st.notes : '';
+  dlg.showModal();
+  $('#f-name').focus();
+}
+
+document.addEventListener('submit', e => {
+  const f = e.target; const kind = f.dataset.form; if (!kind) return;
+  e.preventDefault();
+  const fd = new FormData(f);
+  if (kind === 'student') {
+    const name = String(fd.get('name') || '').trim();
+    if (!name) return;
+    const start = okDate(fd.get('start')) ? fd.get('start') : today();
+    if (dlgMode === 'edit' && active()) {
+      Object.assign(active(), {name, start, goal: String(fd.get('goal') || '').trim(), notes: String(fd.get('notes') || '').trim()});
+    } else {
+      const s = normStudent({name, start, goal: fd.get('goal'), notes: fd.get('notes')});
+      db.students.push(s); db.activeId = s.id; tab = 'dash';
+    }
+    dlg.close(); save(); render(); toast('Save ho gaya');
+  } else if (kind === 'session') {
+    const err = $('#sessErr');
+    const date = String(fd.get('date') || ''), minutes = Math.round(num(fd.get('minutes')));
+    const topic = String(fd.get('topic') || '').trim();
+    if (!okDate(date)) return void (err.textContent = 'Sahi date daalein.');
+    if (minutes < 1) return void (err.textContent = 'Minutes 1 se zyada hone chahiye.');
+    if (!topic) return void (err.textContent = 'Aaj kya padhaya, wo likhein.');
+    if (KEYS.some(k => !formRatings[k])) return void (err.textContent = 'Chaaron ratings (1–5) select karein.');
+    const hw = String(fd.get('homework'));
+    const rec = {
+      id: editingSession || uid(), date, minutes, topic,
+      newWords: Math.max(0, Math.round(num(fd.get('newWords')))),
+      homework: ['done','partly','no','na'].includes(hw) ? hw : 'na',
+      ...formRatings,
+      notes: String(fd.get('notes') || '').trim(), next: String(fd.get('next') || '').trim()
+    };
+    const st = active();
+    if (editingSession) st.sessions = st.sessions.map(s => s.id === editingSession ? rec : s); else st.sessions.push(rec);
+    editingSession = null; resetRatings(); save(); render(); toast('Class save ho gayi');
+  } else if (kind === 'word') {
+    const word = String(fd.get('word') || '').trim();
+    if (!word) return;
+    active().words.push({id: uid(), word, meaning: String(fd.get('meaning') || '').trim(), example: String(fd.get('example') || '').trim(), status: 0, added: today()});
+    save(); render(); $('#w-word').focus();
+  } else if (kind === 'bulk') {
+    const lines = String(fd.get('bulk') || '').split('\n').map(l => l.trim()).filter(Boolean);
+    let added = 0;
+    for (const line of lines) {
+      const m = line.match(/^(.+?)\s*[=:\-–]\s*(.+)$/);
+      const word = (m ? m[1] : line).trim(), meaning = m ? m[2].trim() : '';
+      if (!word) continue;
+      active().words.push({id: uid(), word: word.slice(0, 60), meaning: meaning.slice(0, 100), example: '', status: 0, added: today()}); added++;
+    }
+    save(); render(); toast(added + ' words add hue');
+  }
+});
+
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+document.addEventListener('change', e => {
+  if (e.target.id === 'studentSel') { db.activeId = e.target.value; editingSession = null; resetRatings(); save(); render(); }
+  if (e.target.id === 'importFile') {
+    const file = e.target.files && e.target.files[0]; if (!file) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      try {
+        const parsed = JSON.parse(String(rd.result));
+        if (!parsed || !Array.isArray(parsed.students)) throw new Error('bad');
+        const incoming = normDb(parsed);
+        if (!confirm(`Is file mein ${incoming.students.length} student(s) hain. Abhi ka saara data replace ho jayega. Aage badhein?`)) return;
+        db = incoming; tab = 'dash'; save(); render(); toast('Backup wapas aa gaya');
+      } catch (err) { alert('Ye file sahi backup nahi lagti.'); }
+    };
+    rd.readAsText(file);
+    e.target.value = '';
+  }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'w-search') {
+    wordFilter = e.target.value;
+    const pos = e.target.selectionStart;
+    render();
+    const el = $('#w-search'); el.focus(); el.setSelectionRange(pos, pos);
+  }
+});
+
+/* ---------- Init ---------- */
+try { const t = localStorage.getItem(KEY + '.theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) { /* ignore */ }
+render();
+</script>
+</body>
+</html>
 
