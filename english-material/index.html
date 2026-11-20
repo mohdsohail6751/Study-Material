@@ -3,127 +3,131 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>English Speaking Tracker</title>
+<title>English Speaking Course Tracker</title>
 <style>
 :root{
-  --bg:#f5f6fa;--card:#ffffff;--text:#1c2333;--muted:#667085;--line:#e3e6ee;
+  --bg:#f5f6fa;--card:#ffffff;--text:#1c2333;--muted:#5d677d;--line:#e3e6ee;
   --brand:#4f46e5;--brand-ink:#ffffff;--brand-soft:#eceeff;
   --ok:#15803d;--warn:#b45309;--bad:#b91c1c;
-  --s0bg:#e8eaf0;--s0fg:#475066;
-  --s1bg:#fdeab0;--s1fg:#7a4a00;
-  --s2bg:#cfe3ff;--s2fg:#12427f;
-  --s3bg:#bdf0cf;--s3fg:#0d5a2b;
-  --c-speaking:#4f46e5;--c-listening:#0e7490;--c-pronunciation:#c2410c;--c-confidence:#15803d;
-  --radius:14px;
+  --s0bg:#e8eaf0;--s0fg:#475066;--s1bg:#fdeab0;--s1fg:#7a4a00;--s2bg:#cfe3ff;--s2fg:#12427f;--s3bg:#bdf0cf;--s3fg:#0d5a2b;
+  --box1:#eef4ff;--box2:#eefaf1;--box3:#fff7e6;--box4:#f6efff;
+  --c-fluency:#4f46e5;--c-pronunciation:#c2410c;--c-vocabulary:#0e7490;--c-grammar:#be185d;--c-listening:#a16207;--c-confidence:#15803d;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#10131c;--card:#1a1f2d;--text:#e8ebf3;--muted:#98a2b8;--line:#2a3144;
-    --brand:#8b85ff;--brand-ink:#10131c;--brand-soft:#262b4a;
-    --ok:#5fd68a;--warn:#f0b24d;--bad:#f28b8b;
-    --s0bg:#2a3144;--s0fg:#b4bdd1;
-    --s1bg:#4a3a10;--s1fg:#fbd77a;
-    --s2bg:#1c3a63;--s2fg:#a9cdff;
-    --s3bg:#15472b;--s3fg:#9be9b5;
-    --c-speaking:#9a95ff;--c-listening:#4fc3dc;--c-pronunciation:#ff9a5c;--c-confidence:#5fd68a;
+    --bg:#10131c;--card:#1a1f2d;--text:#e8ebf3;--muted:#a3adc2;--line:#2a3144;
+    --brand:#8b85ff;--brand-ink:#10131c;--brand-soft:#262b4a;--ok:#5fd68a;--warn:#f0b24d;--bad:#f28b8b;
+    --s0bg:#2a3144;--s0fg:#b4bdd1;--s1bg:#4a3a10;--s1fg:#fbd77a;--s2bg:#1c3a63;--s2fg:#a9cdff;--s3bg:#15472b;--s3fg:#9be9b5;
+    --box1:#17233f;--box2:#142a1d;--box3:#33270f;--box4:#251a38;
+    --c-fluency:#9a95ff;--c-pronunciation:#ff9a5c;--c-vocabulary:#4fc3dc;--c-grammar:#f472b6;--c-listening:#e5b94a;--c-confidence:#5fd68a;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#10131c;--card:#1a1f2d;--text:#e8ebf3;--muted:#98a2b8;--line:#2a3144;
-  --brand:#8b85ff;--brand-ink:#10131c;--brand-soft:#262b4a;
-  --ok:#5fd68a;--warn:#f0b24d;--bad:#f28b8b;
-  --s0bg:#2a3144;--s0fg:#b4bdd1;
-  --s1bg:#4a3a10;--s1fg:#fbd77a;
-  --s2bg:#1c3a63;--s2fg:#a9cdff;
-  --s3bg:#15472b;--s3fg:#9be9b5;
-  --c-speaking:#9a95ff;--c-listening:#4fc3dc;--c-pronunciation:#ff9a5c;--c-confidence:#5fd68a;
+  --bg:#10131c;--card:#1a1f2d;--text:#e8ebf3;--muted:#a3adc2;--line:#2a3144;
+  --brand:#8b85ff;--brand-ink:#10131c;--brand-soft:#262b4a;--ok:#5fd68a;--warn:#f0b24d;--bad:#f28b8b;
+  --s0bg:#2a3144;--s0fg:#b4bdd1;--s1bg:#4a3a10;--s1fg:#fbd77a;--s2bg:#1c3a63;--s2fg:#a9cdff;--s3bg:#15472b;--s3fg:#9be9b5;
+  --box1:#17233f;--box2:#142a1d;--box3:#33270f;--box4:#251a38;
+  --c-fluency:#9a95ff;--c-pronunciation:#ff9a5c;--c-vocabulary:#4fc3dc;--c-grammar:#f472b6;--c-listening:#e5b94a;--c-confidence:#5fd68a;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:980px;margin:0 auto;padding:16px}
-h1{font-size:20px;margin:0}
-h2{font-size:17px;margin:0 0 10px}
-h3{font-size:15px;margin:0 0 6px}
-.muted{color:var(--muted)}
-.small{font-size:13px}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:0}h2{font-size:17px;margin:0 0 10px}h3{font-size:15px;margin:0 0 6px}
+.muted{color:var(--muted)}.small{font-size:13px}
 header.top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
 .student-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 select,input,textarea,button{font:inherit;color:inherit}
-select,input[type=text],input[type=number],input[type=date],textarea{
-  background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+select,input[type=text],input[type=number],input[type=date],input[type=search],textarea{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
 textarea{resize:vertical;min-height:70px}
-select{width:auto;min-width:160px}
-input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+select{width:auto;min-width:150px;max-width:100%}
+select.full{width:100%}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
 .btn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:600}
 .btn:hover{border-color:var(--brand)}
 .btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .btn.danger{color:var(--bad)}
 .btn.sm{padding:4px 10px;font-size:13px}
-nav.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:thin}
+nav.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
 nav.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:600;color:var(--muted)}
 nav.tabs button[aria-selected=true]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
 .grid{display:grid;gap:12px}
 .stats{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
-.stat .v{font-size:26px;font-weight:700;line-height:1.2}
-.stat .l{font-size:13px;color:var(--muted)}
-.row2{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.stat .v{font-size:25px;font-weight:700;line-height:1.2}.stat .l{font-size:13px;color:var(--muted)}
+.row2{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.topics{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
 .bar{height:10px;border-radius:99px;background:var(--s0bg);overflow:hidden}
 .bar>i{display:block;height:100%;background:var(--brand);border-radius:99px}
-.stage-row{display:grid;grid-template-columns:minmax(120px,240px) 1fr 52px;gap:10px;align-items:center;margin:8px 0}
+.bar.ok>i{background:var(--ok)}
+.lvl-row{display:grid;grid-template-columns:minmax(150px,260px) 1fr 70px;gap:10px;align-items:center;margin:8px 0}
 .chip{border:0;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-.chip.s0{background:var(--s0bg);color:var(--s0fg)}
-.chip.s1{background:var(--s1bg);color:var(--s1fg)}
-.chip.s2{background:var(--s2bg);color:var(--s2fg)}
-.chip.s3{background:var(--s3bg);color:var(--s3fg)}
-.skill{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
-.skill:first-of-type{border-top:0}
+.chip.s0{background:var(--s0bg);color:var(--s0fg)}.chip.s1{background:var(--s1bg);color:var(--s1fg)}.chip.s2{background:var(--s2bg);color:var(--s2fg)}.chip.s3{background:var(--s3bg);color:var(--s3fg)}
+.chip.static{cursor:default}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;text-align:left;width:100%;display:block}
+.tcard:hover{border-color:var(--brand)}
+.tcard.next{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+.tcard .no{font-size:12px;color:var(--muted);font-weight:700}
+.tcard .tt{font-weight:700;font-size:16px;margin:2px 0 8px}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.filters button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;cursor:pointer;font-weight:600;color:var(--muted)}
+.filters button[aria-pressed=true]{background:var(--brand-soft);color:var(--brand);border-color:var(--brand)}
+.box{border-radius:12px;padding:12px 14px;margin-top:12px}
+.box h3{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.b1{background:var(--box1)}.b2{background:var(--box2)}.b3{background:var(--box3)}.b4{background:var(--box4)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.vchip{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:2px 10px;cursor:pointer;font-size:14px}
+.say-line{display:flex;gap:8px;align-items:flex-start;margin:4px 0}
+.spk{flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:8px;cursor:pointer;padding:0 8px;line-height:26px}
+.qrow{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px solid var(--line)}
+.qrow:first-of-type{border-top:0}
+.qb{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);cursor:pointer;font-weight:700;font-size:16px;background:var(--s0bg);color:var(--s0fg)}
+.qb.q1{background:var(--s1bg);color:var(--s1fg);border-color:transparent}
+.qb.q2{background:var(--s3bg);color:var(--s3fg);border-color:transparent}
+.qt{flex:1;padding-top:4px}
+.tier{margin-top:14px}
+.tier h3{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;margin:6px 0}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .rating{display:flex;gap:6px;flex-wrap:wrap}
 .rating button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-weight:700}
 .rating button[aria-pressed=true]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .hint{font-size:12px;color:var(--muted);min-height:18px;margin-top:2px}
-.session{border-top:1px solid var(--line);padding:12px 0}
-.session:first-child{border-top:0}
+.session{border-top:1px solid var(--line);padding:12px 0}.session:first-child{border-top:0}
 .session-head{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pill{font-size:12px;border-radius:99px;padding:2px 10px;background:var(--brand-soft);color:var(--brand);font-weight:600}
-.pill.ok{background:var(--s3bg);color:var(--s3fg)}
-.pill.warn{background:var(--s1bg);color:var(--s1fg)}
-.pill.bad{background:#fbd5d5;color:#7f1d1d}
+.pill.ok{background:var(--s3bg);color:var(--s3fg)}.pill.warn{background:var(--s1bg);color:var(--s1fg)}.pill.bad{background:#fbd5d5;color:#7f1d1d}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pill.bad{background:#4a1d1d;color:#ffb4b4}}
 :root[data-theme="dark"] .pill.bad{background:#4a1d1d;color:#ffb4b4}
 .notes{margin-top:6px;font-size:14px;white-space:pre-wrap}
 .err{color:var(--bad);font-size:13px;min-height:18px}
 .banner{background:var(--s1bg);color:var(--s1fg);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-weight:600}
 .empty{text-align:center;padding:40px 16px}
-.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;margin-top:6px}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 svg.chart{width:100%;height:auto;display:block}
-svg .ax{fill:var(--muted);font-size:11px}
-svg .gl{stroke:var(--line);stroke-width:1}
-table{width:100%;border-collapse:collapse}
-th,td{text-align:left;padding:8px 6px;border-top:1px solid var(--line);vertical-align:middle}
-th{font-size:12px;color:var(--muted);border-top:0}
-.tablewrap{overflow-x:auto}
-dialog{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);color:var(--text);padding:20px;width:min(440px,92vw)}
-dialog::backdrop{background:rgba(0,0,0,.45)}
+svg .ax{fill:var(--muted);font-size:11px}svg .gl{stroke:var(--line);stroke-width:1}
 .field{margin-bottom:12px}
 .actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);padding:20px;width:min(460px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:99px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
 #toast.show{opacity:1}
+.pcard{text-align:center;padding:26px 18px}
+.pq{font-size:24px;line-height:1.35;font-weight:700;margin:12px 0 16px}
+.timer{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+.tabs-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0}
 .print-only{display:none}
 @media print{
   body{background:#fff;color:#000}
-  .no-print,nav.tabs,.student-bar,.btn{display:none!important}
+  .no-print,nav.tabs,.student-bar,.btn,.spk,.qb{display:none!important}
   .print-only{display:block}
-  .card,.stat{break-inside:avoid;border-color:#bbb}
+  .card,.stat,.box{break-inside:avoid;border-color:#bbb}
+  .qb.q1,.qb.q2{display:inline-block!important}
 }
-@media (max-width:520px){
-  .stage-row{grid-template-columns:1fr 52px}
-  .stage-row .bar{grid-column:1/3;order:3}
+@media (max-width:560px){
+  .lvl-row{grid-template-columns:1fr 70px}.lvl-row .bar{grid-column:1/3;order:3}
+  .pq{font-size:20px}
 }
 </style>
 </head>
@@ -131,16 +135,15 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 <div class="wrap">
   <header class="top no-print">
     <div>
-      <h1>English Speaking Tracker</h1>
-      <div class="muted small">Teacher ka progress diary &mdash; zero se fluent tak</div>
+      <h1>English Speaking Course Tracker</h1>
+      <div class="muted small">46 topics · 6 levels · 920 speaking questions · Basics to Advanced</div>
     </div>
     <div class="student-bar">
       <label for="studentSel" class="muted small" style="margin:0">Student</label>
       <select id="studentSel" aria-label="Select student"></select>
-      <button class="btn" data-act="new-student">+ Naya student</button>
+      <button class="btn" data-act="new-student">+ New student</button>
     </div>
   </header>
-
   <div id="banner"></div>
   <nav class="tabs no-print" id="tabs" role="tablist" aria-label="Sections"></nav>
   <main id="main"></main>
@@ -148,73 +151,1454 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 
 <dialog id="studentDlg">
   <form data-form="student" method="dialog">
-    <h2 id="dlgTitle">Naya student</h2>
-    <div class="field"><label for="f-name">Naam *</label><input type="text" id="f-name" name="name" required maxlength="80"></div>
-    <div class="field"><label for="f-start">Shuru karne ki date</label><input type="date" id="f-start" name="start"></div>
-    <div class="field"><label for="f-goal">Goal (kyun seekhna hai?)</label><input type="text" id="f-goal" name="goal" maxlength="200" placeholder="e.g. Job interview, travel, daily baat-cheet"></div>
-    <div class="field"><label for="f-notes">Student ke baare mein notes</label><textarea id="f-notes" name="notes" maxlength="1000" placeholder="Mother tongue, age, kitna time deta hai, dar kis cheez ka hai..."></textarea></div>
-    <div class="actions">
-      <button class="btn" value="cancel" formnovalidate>Cancel</button>
-      <button class="btn primary" value="ok">Save</button>
-    </div>
+    <h2 id="dlgTitle">New student</h2>
+    <div class="field"><label for="f-name">Name *</label><input type="text" id="f-name" name="name" required maxlength="80"></div>
+    <div class="field"><label for="f-start">Start date</label><input type="date" id="f-start" name="start"></div>
+    <div class="field" id="f-level-wrap"><label for="f-level">Starting level</label><select id="f-level" name="level" class="full"></select>
+      <div class="hint">All topics in lower levels will be marked "Mastered". You can change them later.</div></div>
+    <div class="field"><label for="f-goal">Goal</label><input type="text" id="f-goal" name="goal" maxlength="200" placeholder="e.g. Job interview, travel, daily conversation"></div>
+    <div class="field"><label for="f-notes">Notes about the student</label><textarea id="f-notes" name="notes" maxlength="1000"></textarea></div>
+    <div class="actions"><button class="btn" value="cancel" formnovalidate>Cancel</button><button class="btn primary" value="ok">Save</button></div>
   </form>
 </dialog>
-
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 'use strict';
+/* ================= DATA ================= */
+const TOPICS = [];
+// T(number, level, title, goal, vocab, key sentences, questions, role play, homework)
+const T = (n, l, t, g, v, k, q, r, h) => TOPICS.push({
+  n, id: 't' + String(n).padStart(2, '0'), level: l, title: t, goal: g,
+  vocab: v.split(',').map(s => s.trim()).filter(Boolean),
+  key: k.split('\n').map(s => s.trim()).filter(Boolean),
+  q: q.split('\n').map(s => s.trim()).filter(Boolean),
+  role: r, home: h
+});
+/* LEVEL 1 · STARTER (A1) — questions: 1-7 warm-up, 8-15 talk, 16-20 challenge */
+T(1,1,`Introducing Yourself`,`Say who you are and share basic facts about yourself.`,
+`name, age, country, city, job, student, married, single, language, nationality`,
+`My name is ___.
+I am ___ years old.
+I am from ___.
+I work as a ___. / I study ___.
+I can speak ___ and ___.`,
+`What is your name?
+How do you spell your name?
+How old are you?
+Where are you from?
+Where do you live now?
+What languages do you speak?
+Are you a student or do you work?
+Can you introduce yourself in five sentences?
+What do you do every day?
+Tell me about your city or town.
+Why do you want to learn English?
+What do you like to do in your free time?
+What is your favourite food? Why?
+Who is the most important person in your life? Why?
+What is one thing you are good at?
+What are three things people should know about you?
+What was your best day this year? What happened?
+How do you want your life to be in five years?
+What makes you happy?
+Introduce a friend to me. Tell me about him or her.`,
+`Meet a new person at a party. Say hello, give your name, and ask 4 questions about them.`,
+`Record a one-minute talk called "About me". Listen to it and find 3 things to improve.`);
 
-/* ---------- Curriculum (editable here if you want to change topics) ---------- */
-const STAGES = [
-  {id:'st1', title:'Stage 1 · Alphabet & Sounds', hint:'English ke letters aur unki awaaz', skills:[
-    ['a1','Capital letters A–Z pehchanna'],['a2','Small letters a–z pehchanna'],
-    ['a3','Har letter ki sound (phonics: a=ae, b=buh...)'],['a4','Vowels A E I O U'],
-    ['a5','Apna naam spell karna'],['a6','Simple 3-letter words padhna (cat, pen, sun)']]},
-  {id:'st2', title:'Stage 2 · Numbers & Basics', hint:'Ginti, din, mahine, rang', skills:[
-    ['b1','Numbers 1–10'],['b2','Numbers 11–100'],['b3','Days of the week'],
-    ['b4','Months of the year'],['b5','Colours'],['b6','Time bolna (it is 5 o\'clock)']]},
-  {id:'st3', title:'Stage 3 · Greetings & Introduction', hint:'Milna-julna, apna parichay', skills:[
-    ['c1','Hello / Good morning / Good night / Bye'],['c2','How are you? — I am fine'],
-    ['c3','My name is ...'],['c4','I am from ... / I live in ...'],
-    ['c5','Please / Thank you / Sorry / Excuse me'],['c6','Apna 5-line introduction bolna']]},
-  {id:'st4', title:'Stage 4 · Everyday Words', hint:'Roz ke kaam ke words', skills:[
-    ['d1','Family members'],['d2','Body parts'],['d3','Food & drinks'],
-    ['d4','Ghar ki cheezein (house things)'],['d5','Animals'],['d6','Common verbs (go, eat, drink, sleep, come...)'],
-    ['d7','Opposites (big-small, hot-cold)']]},
-  {id:'st5', title:'Stage 5 · Simple Sentences', hint:'Chhote-chhote poore sentences', skills:[
-    ['e1','I am / You are / He is / She is'],['e2','This is / That is'],['e3','I have / I do not have'],
-    ['e4','I like / I do not like'],['e5','I want / I need'],['e6','Is / Are / Am ka sahi use']]},
-  {id:'st6', title:'Stage 6 · Questions', hint:'Sawal poochna seekhna', skills:[
-    ['f1','What / Where / Who'],['f2','When / Why / How'],['f3','Yes / No questions (Do you...? Is it...?)'],
-    ['f4','Question ka seedha jawab dena'],['f5','Samajh na aaye to bolna: "Please say again"']]},
-  {id:'st7', title:'Stage 7 · Daily Conversation', hint:'Asli zindagi ki situations', skills:[
-    ['g1','Apna daily routine bolna'],['g2','Shop par (How much is this?)'],['g3','Restaurant par order dena'],
-    ['g4','Rasta poochna / batana'],['g5','Phone par basic baat'],['g6','Past tense (I went, I ate)'],
-    ['g7','Future (I will go, I am going to)']]},
-  {id:'st8', title:'Stage 8 · Fluency & Confidence', hint:'Bina ruke, bina jhijhak bolna', skills:[
-    ['h1','1 minute bina ruke bolna'],['h2','Chhoti kahani sunana'],['h3','Apni raay dena (I think...)'],
-    ['h4','5 minute free conversation'],['h5','Bina Hindi/Urdu mix kiye 10 sentences'],['h6','Naye insaan se English mein baat']]}
+T(2,1,`Greetings and Small Talk`,`Start and keep a short, friendly conversation.`,
+`hello, how are you, nice to meet you, see you later, weekend, busy, weather, tired, great, take care`,
+`How are you? — I am fine, thanks. And you?
+Nice to meet you.
+How was your weekend?
+It is a lovely day, isn't it?
+See you later!`,
+`Hello! How are you today?
+How is your day going?
+Are you busy this week?
+How was your weekend?
+What did you have for breakfast today?
+Is it hot or cold today?
+Do you like Mondays?
+What do you do when you meet a new person?
+How do you greet your teacher? Your friend? Your boss?
+What can you say to start a conversation with a stranger?
+What do you talk about with your neighbours?
+How do you say goodbye in different situations?
+What is a good question to ask someone at a party?
+What was the best part of your last weekend?
+What do you usually do on the weekend?
+Why is small talk important?
+Start a small talk with me about the weather.
+You meet your friend after one year. What do you say?
+You are in a lift with your boss. What do you say?
+Is it easy or difficult for you to talk to new people? Why?`,
+`Meet a neighbour in the lift. Start a small talk about the weather and the weekend.`,
+`Start a small talk with 2 people this week. Write down what you said.`);
+
+T(3,1,`Family and Friends`,`Talk about the people who are close to you.`,
+`parents, brother, sister, cousin, grandparents, uncle, aunt, husband, wife, neighbour, best friend`,
+`I have two brothers and one sister.
+My father works as a ___.
+She is older than me.
+We spend time together on weekends.
+He is my best friend because ___.`,
+`How many people are in your family?
+Do you have brothers or sisters?
+What is your mother's name?
+What does your father do?
+Who is the oldest person in your family?
+Who is your best friend?
+Do you live with your family?
+Tell me about your family.
+Who are you closest to in your family? Why?
+What do you do with your family on weekends?
+Tell me about your best friend. What is he or she like?
+How did you meet your best friend?
+What do you and your friends do together?
+Describe your grandparents.
+What is a family tradition in your home?
+What makes a good friend?
+Is it better to live in a big family or a small family? Why?
+Tell me about a happy family memory.
+Who has influenced you the most? How?
+How have your friendships changed since you were a child?`,
+`Show a family photo to a friend and tell them about each person.`,
+`Tell a family member about your best friend in English. Speak for one minute.`);
+
+T(4,1,`Numbers, Dates and Time`,`Talk about time, dates, prices and numbers in real life.`,
+`o'clock, half past, quarter past, birthday, month, date, week, year, price, phone number, appointment`,
+`It is half past six.
+My birthday is on the 5th of March.
+My phone number is ___.
+The meeting is at three o'clock.
+It costs two hundred rupees.`,
+`What time is it now?
+What is today's date?
+What day was yesterday?
+When is your birthday?
+What is your phone number?
+How many months are there in a year?
+What time do you wake up?
+What time do you start and finish your day?
+What is your favourite month? Why?
+How do you remember important dates?
+What time do you usually eat lunch and dinner?
+What do you do at 8 o'clock in the evening?
+Tell me the dates of three important days in your year.
+How many hours do you sleep every night?
+How much time do you spend on your phone every day?
+Are you a person who is always on time? Why or why not?
+Tell me about a time you were late. What happened?
+What is the most important day of your life? Why?
+If you had a free hour every day, what would you do?
+What is the best time of day for learning? Why?`,
+`Call a doctor's office to make an appointment. Give the day, the date and the time.`,
+`Say today's date and the time aloud 3 times a day. Write 5 important dates in English.`);
+
+T(5,1,`My Home and Things Around Me`,`Describe your home, your room and the things in them.`,
+`living room, kitchen, bedroom, bathroom, balcony, sofa, fridge, cupboard, floor, roof, neighbourhood`,
+`There is a ___ in my room.
+The kitchen is next to the living room.
+My favourite room is ___ because ___.
+I live in a flat. / I live in a house.
+There are three rooms in my home.`,
+`Do you live in a house or a flat?
+How many rooms are there in your home?
+What is in your bedroom?
+What is your favourite room?
+Do you have a garden or a balcony?
+What colour are the walls in your room?
+Who lives with you?
+Describe your home to me.
+Describe your bedroom. What is in it?
+What do you do in the kitchen?
+Tell me about your neighbourhood.
+What do you like about your home? What do you not like?
+What things in your room are very important to you?
+How do you keep your home clean?
+Who does the housework in your home?
+Describe your dream home.
+Would you rather live in a city flat or a village house? Why?
+If you could change one thing in your home, what would it be?
+What is the first thing you notice when you enter a home?
+What makes a house feel like a home?`,
+`You show a visitor around your home. Describe each room.`,
+`Walk through your home and say what you see in each room, aloud, in English.`);
+
+T(6,1,`Daily Routine`,`Talk about what you do every day, in order.`,
+`wake up, get up, brush, breakfast, commute, work, study, relax, dinner, go to bed, always, usually, sometimes, never`,
+`I usually wake up at ___.
+After that, I ___.
+I never ___ on Sundays.
+Then I go to work by bus.
+In the evening, I ___.`,
+`What time do you usually get up on Sundays?
+What do you do first in the morning?
+How do you go to work or school?
+What time do you have lunch?
+What time do you go to bed?
+Do you drink tea or coffee in the morning?
+Do you exercise every day?
+Tell me about your morning routine.
+Describe a normal weekday from morning to night.
+How is your weekend different from a weekday?
+What do you do in the evening to relax?
+What is the best part of your day? Why?
+What is the most difficult part of your day?
+What do you always do before you sleep?
+What do you never do on Sundays?
+If you could change one thing in your routine, what would it be?
+Are you a morning person or a night person? Explain.
+What is the perfect day for you? Describe it from morning to night.
+What habits do you want to start? Why?
+How does your routine affect your mood?`,
+`A friend asks about your day. Describe it from morning to night.`,
+`Talk about your day for one minute every night this week.`);
+
+T(7,1,`Food and Drink`,`Talk about what you eat, cook and like.`,
+`breakfast, lunch, dinner, snack, spicy, sweet, sour, delicious, vegetarian, recipe, cook, hungry, thirsty`,
+`I like ___ because it is ___.
+I usually have ___ for breakfast.
+It tastes ___.
+First, I ___. Then I ___.
+I cannot eat ___ because ___.`,
+`What did you eat for breakfast today?
+What is your favourite food?
+What do you like to drink?
+Do you like spicy food?
+Can you cook?
+What do you not like to eat?
+How many meals do you have in a day?
+What do you usually eat in a normal day?
+Tell me about a traditional dish from your country.
+How do you make your favourite dish?
+Do you prefer home food or restaurant food? Why?
+What snacks do you eat?
+Describe the taste of your favourite food.
+Who cooks at your home?
+What do you eat on special days or festivals?
+Is fast food bad for you? Give reasons.
+What is the best meal you have ever had? Tell the story.
+What would you cook for a guest from another country?
+Is it important to eat together as a family? Why?
+How is the food in your country different from other countries?`,
+`Invite a friend for dinner. Ask what food he or she likes and say what you will cook.`,
+`Explain to a friend how to make one dish. Speak for one minute.`);
+
+T(8,1,`Likes, Dislikes and Hobbies`,`Talk about what you enjoy and what you do in your free time.`,
+`hobby, enjoy, prefer, favourite, boring, exciting, free time, sport, music, movies, reading, travelling, painting`,
+`I enjoy ___ing.
+I am interested in ___.
+I prefer ___ to ___.
+I do not like ___ because ___.
+My favourite ___ is ___.`,
+`What do you do in your free time?
+What is your favourite hobby?
+Do you like sports?
+What kind of music do you like?
+Do you like watching movies?
+What is your favourite colour?
+What do you not like doing?
+Tell me about your favourite hobby.
+When did you start this hobby? How?
+Who do you do your hobby with?
+What kind of movies do you enjoy? Why?
+Tell me about your favourite singer or actor.
+Do you prefer being at home or going out? Why?
+How do you spend your Sundays?
+What new hobby do you want to try?
+Are hobbies important in life? Explain.
+Which is better: indoor or outdoor hobbies?
+Describe a time when your hobby gave you a good experience.
+Can a hobby become a job? Give your opinion.
+How do hobbies change when people grow older?`,
+`Find out what hobbies a new friend has. Ask 5 questions and then suggest an activity.`,
+`Talk for one minute about your favourite hobby. Record it.`);
+
+/* LEVEL 2 · ELEMENTARY (A2) */
+T(9,2,`Describing People`,`Describe how people look and what they are like.`,
+`tall, short, slim, curly, straight, beard, kind, funny, shy, friendly, polite, lazy, hard-working`,
+`He is tall and slim.
+She has long black hair.
+He is a very kind person.
+She looks like her mother.
+He is good at ___.`,
+`Are you tall or short?
+What colour is your hair?
+Who is the tallest person in your family?
+Is your best friend funny?
+Do you look like your mother or your father?
+What does your teacher look like?
+Are you shy or friendly?
+Describe your best friend. Say how he or she looks and what he or she is like.
+Describe a person in your family.
+Describe your favourite actor or sportsperson.
+What is your personality like?
+Describe the last person you met.
+What kind of people do you like? Why?
+What kind of people do you not like to be with?
+Describe someone who is very kind.
+Do first impressions matter? Why or why not?
+Can you judge a person by how they look?
+Which is more important: how a person looks or how a person behaves?
+Describe a person who has changed your life.
+How do you think your friends describe you?`,
+`Describe a missing person to a police officer: how he or she looks and what he or she wears.`,
+`Describe 3 people you know, with 3 sentences for each.`);
+
+T(10,2,`My Town and Places`,`Talk about where you live and the places around you.`,
+`market, hospital, bank, park, bus stop, station, library, traffic, crowded, quiet, noisy, safe, nearby`,
+`There is a ___ near my house.
+My town is famous for ___.
+It takes ten minutes to walk there.
+It is always crowded.
+You can visit ___ if you like ___.`,
+`What is the name of your town or city?
+Is your town big or small?
+Is there a park near your house?
+Where is the nearest market?
+How far is your home from your work or school?
+Is your area quiet or noisy?
+Where do you go for shopping?
+Describe your town to a visitor.
+What are the best places to visit in your city?
+How do you go from your home to the market?
+What do you like about your neighbourhood?
+What do you not like about your city?
+What is your town famous for?
+Where do people in your town go on weekends?
+Tell me about a place you visit often.
+How has your town changed in the last ten years?
+What would you improve in your city if you were the mayor?
+Is it better to live in a town or a village? Give reasons.
+What would you show a tourist in one day?
+What problems does your city have? How can they be solved?`,
+`Show a visitor around your town. Say where to go, where to eat and where to shop.`,
+`Say 8 sentences about your favourite place in your town. Record yourself.`);
+
+T(11,2,`Shopping and Money`,`Buy things, ask about prices and talk about shopping habits.`,
+`price, cheap, expensive, discount, sale, cash, receipt, size, try on, change, bargain, customer`,
+`How much is this?
+Do you have it in a bigger size?
+It is too expensive for me.
+Can you give me a discount?
+I will take it.`,
+`Do you like shopping?
+Where do you buy your clothes?
+Do you shop online?
+How much money do you spend in a week?
+What was the last thing you bought?
+Do you pay by cash or by card?
+Do you like going to the market?
+Tell me about the last time you went shopping.
+What do you do when something is too expensive?
+Do you compare prices before you buy? How?
+How do you bargain in a shop?
+What is better: online shopping or shopping in a shop? Why?
+What do you buy every month?
+Tell me about something you bought that you were happy with.
+What do you do when you buy something and it does not work?
+Is it good to buy things on discount? Why or why not?
+Do people spend too much money on things they do not need?
+How can people save money?
+If you had a million rupees today, what would you buy?
+Role play: you are in a shop. Ask for a product, ask the price, and ask for a discount.`,
+`You are in a clothes shop. Ask about size, colour, price and discount.`,
+`Say what you buy in one week and how much you spend, aloud, in English.`);
+
+T(12,2,`Eating Out`,`Order food, talk to a waiter and describe restaurants.`,
+`menu, order, waiter, starter, main course, dessert, bill, tip, reservation, take away, delicious, bland`,
+`A table for two, please.
+I would like to order ___.
+Could we have the bill, please?
+The food was delicious.
+Is it spicy?`,
+`Do you like eating in restaurants?
+What is your favourite restaurant?
+How often do you eat out?
+Who do you go with?
+What do you usually order?
+Do you prefer tea or coffee after a meal?
+Do you order food online?
+Tell me about the last time you ate in a restaurant.
+How do you order food in a restaurant?
+What do you say when the food is not good?
+What is the difference between a fast-food place and a nice restaurant?
+Describe your favourite restaurant.
+What do you say if you want to reserve a table?
+Do you leave a tip? When and how much?
+What food would you take as a gift for a friend?
+Is it better to eat at home or in a restaurant? Why?
+What makes a restaurant good? Think about food, service and price.
+Tell me about a bad experience in a restaurant.
+Role play: You are a customer. The food is cold. Complain politely.
+Role play: You are a waiter. Welcome the guest and take the order.`,
+`You are at a restaurant. Ask for a table, order a meal and ask for the bill.`,
+`Learn 10 restaurant phrases. Say them in front of a mirror.`);
+
+T(13,2,`Directions and Transport`,`Ask for and give directions, and talk about travelling in a city.`,
+`turn left, turn right, straight, corner, traffic light, crossing, bus, train, taxi, ticket, platform, delay`,
+`Go straight and turn left.
+It is on your right.
+How do I get to ___?
+It takes about twenty minutes by bus.
+It is next to the bank.`,
+`How do you come to class or work?
+Do you have a bike or a car?
+How long does it take to get to your work?
+Do you like travelling by bus or by train?
+How much does a taxi cost in your city?
+Is there a bus stop near your home?
+Can you drive?
+Tell me how to go from your house to the nearest market.
+How do you ask a stranger for directions?
+What do you do when you are lost?
+Explain the way from your home to your school or work.
+What transport do people use in your city?
+What is the best way to travel a long distance? Why?
+Tell me about the last long journey you made.
+What problems are there with traffic in your city?
+How can we make public transport better?
+Is it better to own a car or to use public transport?
+Tell me about a time you got lost.
+Role play: A tourist asks you how to get to the railway station. Help him or her.
+What changes in transport do you expect in the next 20 years?`,
+`A tourist is lost. Give directions to the railway station or to a market.`,
+`Explain the way from your home to 3 places, in English.`);
+
+T(14,2,`Weather and Seasons`,`Describe the weather and talk about how it affects your life.`,
+`sunny, rainy, cloudy, windy, humid, freezing, storm, forecast, temperature, season, umbrella, flood`,
+`It is very hot today.
+It rains a lot in July.
+The weather forecast says ___.
+I love the winter because ___.
+It is getting colder.`,
+`What is the weather like today?
+What is your favourite season?
+Is it hot in your city?
+Does it rain a lot in your city?
+Do you like rain?
+What do you wear in winter?
+Do you check the weather forecast?
+Describe the weather in your city in each season.
+What do you do on a rainy day?
+What is your favourite kind of weather? Why?
+Tell me about a time you were caught in the rain.
+How does the weather change your mood?
+What do you eat and drink in hot weather?
+What happens in your city when there is a big storm?
+What is the best weather for travelling?
+How is the weather changing in your country? Why?
+Which season is the best for a holiday? Explain.
+How does bad weather affect people's work?
+Tell me about the most extreme weather you have seen.
+How can we protect ourselves from extreme weather?`,
+`Plan a picnic with a friend. Check the weather and decide what to bring.`,
+`Describe today's weather and your plan for tomorrow, aloud.`);
+
+T(15,2,`Clothes and Fashion`,`Describe clothes, talk about style and shop for clothes.`,
+`shirt, trousers, dress, jacket, shoes, fit, suit, casual, formal, trend, uniform, comfortable`,
+`I am wearing ___.
+It suits you.
+I prefer casual clothes.
+These shoes are too tight.
+It is in fashion now.`,
+`What are you wearing today?
+What is your favourite colour to wear?
+Do you wear a uniform?
+Do you like buying new clothes?
+What do you wear to a party?
+What do you wear at home?
+Do you like wearing shoes or sandals?
+Describe what you wore yesterday.
+What do people in your country wear for festivals?
+How do you choose what to wear every day?
+What is the difference between formal and casual clothes?
+Tell me about your favourite piece of clothing.
+What do you wear for an interview?
+Do you follow fashion trends? Why or why not?
+Where do you buy your clothes and why?
+Are clothes important to make a good impression?
+Should schools have uniforms? Give your opinion.
+How has fashion in your country changed?
+Is it right to spend a lot of money on branded clothes?
+Describe the perfect outfit for any situation of your choice.`,
+`You are in a clothes shop. Ask for a shirt in another size and try it on.`,
+`Describe your outfit for 4 different days, aloud.`);
+
+T(16,2,`Health and the Body`,`Say how you feel, talk to a doctor and give simple health advice.`,
+`headache, fever, cough, cold, doctor, medicine, appointment, pain, tablet, exercise, healthy, rest`,
+`I have a headache.
+I do not feel well.
+You should drink more water.
+I need to see a doctor.
+How often should I take this medicine?`,
+`How do you feel today?
+Do you exercise?
+How many hours do you sleep?
+Do you drink a lot of water?
+Do you often get sick?
+What do you do when you have a headache?
+Do you like going to the doctor?
+Tell me about the last time you were sick.
+What do you do to stay healthy?
+What do you say to a doctor when you are ill?
+What can people do to get better from a cold?
+Describe your usual breakfast. Is it healthy?
+What do you do when you feel stressed?
+How do you stay fit?
+What advice would you give a friend who is sick?
+Which is more important: eating well or exercising?
+Why do many people not sleep well? How can they sleep better?
+Role play: You are at the doctor's office. Explain your problem.
+What is the health system like in your country?
+How can we help people live a healthy life?`,
+`You visit the doctor. Say what is wrong and listen to the advice.`,
+`Tell a friend how you stay healthy, in 6 sentences.`);
+
+/* LEVEL 3 · PRE-INTERMEDIATE (A2+/B1) */
+T(17,3,`Past Events: Yesterday and Last Weekend`,`Tell short stories about things that happened in the past.`,
+`yesterday, last week, ago, went, ate, met, enjoyed, decided, remember, suddenly, finally, afterwards`,
+`Yesterday I went to ___.
+Last weekend I met my friends.
+I did not go out because ___.
+Did you enjoy it?
+After that, we ___.`,
+`What did you do yesterday?
+What did you eat for dinner last night?
+Where did you go last weekend?
+What time did you wake up this morning?
+Did you watch TV last night?
+Who did you meet yesterday?
+Did you sleep well last night?
+Tell me about your last weekend.
+Tell me about your last holiday.
+What did you do on your last birthday?
+Tell me about the last time you went out with friends.
+What was the best day of last month?
+Tell me about the last film you watched.
+What did you learn in the last class?
+Describe the last time you were really happy.
+Tell me about a time something went wrong.
+Tell me about a day you will never forget.
+Tell me about a mistake you made and what you learned.
+Tell me a story about your childhood.
+Tell me about a time you helped someone, or someone helped you.`,
+`Meet a friend on Monday. Tell him or her about your weekend.`,
+`Tell about your last weekend in 8 sentences. Record it.`);
+
+T(18,3,`Future Plans`,`Talk about plans, hopes and predictions.`,
+`plan, hope, expect, goal, dream, will, going to, maybe, probably, soon, next year, in the future`,
+`I am going to ___ tomorrow.
+I will probably ___.
+I hope to ___ next year.
+In five years, I want to ___.
+I think it will be ___.`,
+`What are you going to do tomorrow?
+What are you doing this weekend?
+What are you going to eat tonight?
+Where are you going on your next holiday?
+What will you do after this class?
+When is your next birthday?
+Are you going to study tonight?
+What are your plans for next month?
+What do you want to do next year?
+Where do you want to live in the future?
+What job do you want to have in the future?
+What will you do if you get a lot of free time?
+What are your plans for this weekend?
+What will your life be like in five years?
+What will you do when you finish this course?
+What are your three biggest goals? How will you reach them?
+Do you think the future will be better or worse? Why?
+What do you think cities will look like in 50 years?
+What will you do if you do not reach your goal?
+What do you hope to tell your children one day?`,
+`Tell a friend your plans for the next five years. Your friend asks questions.`,
+`Write 8 sentences about your plans and say them aloud.`);
+
+T(19,3,`Work and Jobs`,`Talk about your job, your day at work and your career.`,
+`job, career, salary, boss, colleague, office, shift, promotion, experience, skills, part-time, full-time`,
+`I work as a ___.
+I work from ___ to ___.
+My job is difficult but interesting.
+I am looking for a job.
+I have been working here for ___ years.`,
+`What do you do?
+Where do you work?
+How long have you worked there?
+Do you like your job?
+What time do you start work?
+Who do you work with?
+Do you work from home or in an office?
+Describe your job in detail.
+What do you do on a normal working day?
+What do you like and not like about your job?
+Tell me about your boss or your teacher.
+What skills do you need for your job?
+What is your dream job? Why?
+Tell me about your first job.
+How do you travel to work?
+Is salary or job satisfaction more important?
+What makes a good boss?
+Is it better to have your own business or to work for others?
+How do you think jobs will change because of technology?
+What advice would you give to someone looking for their first job?`,
+`You are at a party. Talk about your work with a new person.`,
+`Describe your job in 1 minute. Record it and listen.`);
+
+T(20,3,`School and Education`,`Talk about your school days, subjects and studies.`,
+`subject, teacher, exam, homework, class, college, university, degree, marks, project, fail, pass, scholarship`,
+`My favourite subject is ___.
+I studied at ___.
+I got good marks in ___.
+I want to study ___ because ___.
+It was hard, but I passed.`,
+`What is your favourite subject?
+Which school or college did you go to?
+Who was your favourite teacher?
+Did you like school?
+Which subject was difficult for you?
+Do you study every day?
+What time did your school start?
+Describe your school days.
+Tell me about your best teacher.
+What did you like most in school? Why?
+How do you study for an exam?
+Tell me about your last exam.
+Describe a normal day in school.
+What are the differences between school and college?
+What have you learned outside of school?
+Is the education system in your country good? What would you change?
+Are marks important for success? Why or why not?
+Should students learn online or in a classroom?
+What should schools teach that they do not teach now?
+Is it better to study abroad or in your own country?`,
+`Meet an old classmate. Talk about your school days and what you do now.`,
+`Talk for a minute about your best teacher.`);
+
+T(21,3,`Travel and Holidays`,`Describe trips, plan holidays and talk about places.`,
+`passport, ticket, luggage, hotel, flight, tourist, sightseeing, journey, trip, souvenir, visa, destination`,
+`I went to ___ last year.
+We stayed in a hotel near ___.
+The best part was ___.
+I would like to visit ___ because ___.
+We travelled by ___.`,
+`Do you like travelling?
+Where did you go on your last holiday?
+Which city do you want to visit?
+Do you prefer the mountains or the sea?
+How do you usually travel: by bus, by train or by plane?
+Who do you travel with?
+Do you take many photos on holiday?
+Tell me about your best holiday.
+What do you do when you go on a holiday?
+What do you pack in your bag when you go on a trip?
+Tell me about a place you want to visit and why.
+What is the best place in your country for tourists?
+What problems can you have when travelling?
+Do you like planning a trip or going without a plan? Why?
+Tell me about the food you ate on a trip.
+Is travelling a good way to learn? Explain.
+Tell me about a trip that did not go as planned.
+What are the good and bad points of tourism for a country?
+Plan a five-day trip for me to your country.
+If you could live in any country for a year, which one and why?`,
+`You are at a hotel desk. Ask about check-in, breakfast and things to see in the city.`,
+`Plan a 3-day trip and tell it to a friend.`);
+
+T(22,3,`Phone Calls and Messages`,`Make and answer calls, leave messages and write short replies.`,
+`call, message, voice note, reply, ring, hang up, busy, signal, battery, voicemail, text, contact`,
+`Hello, this is ___ speaking.
+Can I speak to ___?
+I will call you back.
+Sorry, the line is bad.
+Can I leave a message?`,
+`Do you have a smartphone?
+Who do you call most often?
+Do you like talking on the phone?
+How many messages do you send a day?
+What is your favourite messaging app?
+Do you send voice notes?
+How long do you talk on the phone every day?
+Tell me about the last phone call you made.
+How do you answer a call at work?
+What do you say if you call the wrong number?
+How do you leave a message for someone?
+How are phone calls different from face-to-face talk?
+What do you do if the signal is bad?
+How do you reply to a message from your boss?
+What do you say if you want to end a call politely?
+Do you prefer calling or texting? Why?
+Role play: Call a hotel and ask about a room.
+Role play: Call a friend and invite him or her to a party.
+Is it rude to use a phone during a meal? Why?
+Do phones make people closer or further apart?`,
+`Call a friend to invite him or her. Then call a hotel and ask for a room.`,
+`Practise 3 phone calls aloud with a friend.`);
+
+T(23,3,`Technology and Social Media`,`Talk about phones, apps, the internet and how they change life.`,
+`app, website, download, online, password, post, follow, like, share, screen, internet, privacy, update`,
+`I use my phone for ___.
+I spend about ___ hours a day on ___.
+It is useful, but ___.
+I follow ___ on ___.
+Technology makes life ___.`,
+`How many hours do you use your phone each day?
+What apps do you use the most?
+Do you use social media?
+Do you play games on your phone?
+Can you use a computer well?
+What have you bought online recently?
+What was the last video you watched online?
+Tell me how technology helps you every day.
+What are the good and bad things about social media?
+Describe your favourite app.
+How do you keep your information safe online?
+What was life like before smartphones?
+What do you do when the internet stops working?
+What do you watch on YouTube or other video apps?
+Tell me about a time technology caused a problem for you.
+Are people too dependent on their phones?
+Should children use smartphones? At what age?
+Will robots take our jobs in the future?
+Does social media tell the truth about people's lives?
+What technology do you hope will be invented in the future?`,
+`Explain to your grandparent how to use a smartphone app.`,
+`Talk for one minute about how you use technology every day.`);
+
+T(24,3,`Festivals and Celebrations`,`Describe festivals, weddings, parties and traditions.`,
+`festival, celebrate, tradition, wedding, gift, decorate, guests, feast, fireworks, ceremony, custom, congratulations`,
+`We celebrate ___ in ___.
+People wear ___.
+We usually eat ___.
+It is a very special day for us.
+Congratulations! / Happy birthday!`,
+`What is your favourite festival?
+Which birthday was the most special for you?
+How do you celebrate your birthday?
+Do you like weddings?
+What gifts do you give at a festival?
+Do you go to festivals with your family?
+What do you wear on a special day?
+Describe your favourite festival.
+What food do people prepare during festivals?
+Tell me about a wedding you went to.
+What traditions does your family follow?
+Describe the last party you went to.
+How do people decorate their homes for a festival?
+Which festival do people from other countries enjoy? Why?
+What special days do you celebrate with friends?
+Are traditions important? Why?
+Are festivals less meaningful today than before?
+What can you say to someone on a special day?
+Tell me about a celebration you will never forget.
+Plan a surprise party for a friend. Tell me every detail.`,
+`Welcome a guest at a festival. Explain the customs and the food.`,
+`Describe your favourite festival in 10 sentences.`);
+
+/* LEVEL 4 · INTERMEDIATE (B1) */
+T(25,4,`Life Experiences`,`Talk about things you have and have not done (present perfect).`,
+`experience, ever, never, already, yet, just, adventure, achievement, challenge, memorable, once, several times`,
+`I have visited ___.
+I have never ___.
+I have been to ___ twice.
+Have you ever ___?
+It was the best thing I have ever done.`,
+`Have you ever travelled by plane?
+Have you ever been to another country?
+Have you ever eaten something strange?
+Have you ever met a famous person?
+Have you ever lost your phone?
+Have you ever learned a new skill?
+Have you ever been late for something important?
+What is the most exciting thing you have ever done?
+What is the most beautiful place you have ever visited?
+Have you ever tried a new sport? Tell me about it.
+What is the most difficult thing you have ever done?
+Have you ever helped a stranger? What happened?
+What is the best gift you have ever received?
+Tell me about the best film you have ever seen.
+What have you learned this year?
+What is one thing you have never done but want to do?
+What is the biggest mistake you have ever made?
+Have you ever been in a dangerous situation? Describe it.
+Which experience has changed you the most?
+What have you achieved that makes you proud?`,
+`Two friends meet. Each asks "Have you ever…?" questions and shares stories.`,
+`Prepare 3 stories about your life experiences. Tell them aloud.`);
+
+T(26,4,`Comparing Things and People`,`Compare places, people, things and ideas.`,
+`bigger, smaller, better, worse, more expensive, as ... as, the best, the worst, similar, different, whereas, however`,
+`A is bigger than B.
+It is as good as ___.
+This is the most ___ place I know.
+They are similar, but ___.
+Compared to ___, ___ is ___.`,
+`Which is bigger: a cat or a dog?
+Which is faster: a bus or a train?
+Which is better: tea or coffee?
+Who is older, you or your brother or sister?
+Is your city bigger than the capital city?
+Which season is hotter?
+Which is more expensive: a phone or a laptop?
+Compare your city with another city you know.
+Compare life in the city and life in the village.
+Compare two of your friends.
+Compare your school days with your life now.
+Compare two mobile phones or two cars you know.
+Compare the food of two different countries.
+Compare online learning and learning in a classroom.
+What is the best and the worst thing about your city?
+Who is the most successful person you know, and why?
+Compare life today with life 50 years ago.
+Compare buying a new car with buying a used car.
+Compare the good and bad points of two job options.
+Compare how you are today with how you were five years ago.`,
+`Two friends are choosing between two phones. Compare them and decide.`,
+`Compare two places, two people and two things, in 3 sentences each.`);
+
+T(27,4,`Advice and Suggestions`,`Give and ask for advice in a natural way.`,
+`should, shouldn't, ought to, advice, suggest, recommend, if I were you, why don't you, better, try, avoid, tip`,
+`You should ___.
+Why don't you ___?
+If I were you, I would ___.
+I suggest that you ___.
+You had better ___.`,
+`What advice would you give to a new student?
+What should you do when you have a headache?
+What should people eat to stay healthy?
+What do you suggest for a good holiday?
+What can you do to learn English faster?
+What should I do on a hot day?
+What advice did your parents give you?
+Your friend cannot sleep at night. What advice will you give?
+Your friend wants to learn English. What do you suggest?
+A friend is nervous about an interview. What do you say?
+A friend is always late. What advice do you give?
+What do you suggest for someone who wants to lose weight?
+What do you recommend as a good restaurant in your city?
+Tell me the best advice you have ever received.
+What should a tourist do and not do in your country?
+A friend wants to leave a good job for a business idea. What do you advise?
+What advice would you give your younger self?
+What advice do you have for someone who feels lonely?
+What advice would you give to new parents?
+Role play: A friend has a problem. Listen and give advice.`,
+`A friend has a problem. Listen, ask questions, and give advice.`,
+`Give advice for 3 problems from your own life.`);
+
+T(28,4,`Rules, Obligations and Permission`,`Talk about what you must, can and cannot do.`,
+`must, mustn't, have to, don't have to, allowed, forbidden, permission, rule, law, polite, responsibility, fine`,
+`You must ___.
+You are not allowed to ___.
+I have to ___ every day.
+Can I ___? / May I ___?
+You do not have to ___.`,
+`What time do you have to wake up?
+What rules are there at your workplace or school?
+Can you use your phone in class?
+Do you have to wear a uniform?
+What must you do before you travel abroad?
+Are you allowed to park here?
+Can I borrow your pen?
+What are the rules at your home?
+What rules should people follow on the road?
+What do you have to do every day that you do not like?
+What are the rules in a library or a hospital?
+What did your parents not allow you to do as a child?
+What are the laws in your country that you think are good?
+How do you ask for permission politely?
+What do you have to do to get a driving licence?
+Are there too many rules in life? Explain.
+What rule would you change if you could?
+Is it right to break a rule sometimes? When?
+What responsibilities do parents have for their children?
+What responsibilities do citizens have for their country?`,
+`You are a new employee. Ask about the rules at the workplace and ask for permission.`,
+`Write 8 rules for a good classroom or office. Say them aloud.`);
+
+T(29,4,`Problems and Complaints`,`Explain a problem, complain politely and find a solution.`,
+`problem, broken, damaged, refund, complain, apologise, replace, delay, manager, unacceptable, fix, solution`,
+`I am sorry to bother you, but ___.
+This does not work.
+Could you fix it, please?
+I would like a refund.
+I understand. I will see what I can do.`,
+`What do you do when your phone stops working?
+Have you ever complained about something?
+What do you do when you get the wrong order?
+What problems do you have at home?
+What do you do when the internet is slow?
+Who do you ask for help when you have a problem?
+Have you ever lost something important?
+Tell me about a time you had a problem with a product.
+How do you complain politely?
+Tell me about a time a service was very bad.
+What do you say when you apologise?
+What do you do when a friend is angry with you?
+How do you solve a problem with a neighbour?
+Tell me about a time you solved a hard problem.
+What do you do when you are late for an important meeting?
+Role play: Your food is cold in a restaurant. Talk to the manager.
+Role play: Your parcel did not arrive. Call customer service.
+Role play: Your hotel room is dirty. Talk to the reception.
+What is the best way to deal with an angry customer?
+Do you think people complain too much or too little?`,
+`You bought a product that does not work. Go back to the shop and complain.`,
+`Practise a complaint for 3 situations, aloud.`);
+
+T(30,4,`Invitations, Offers and Plans`,`Invite, accept, say no politely and make plans.`,
+`invite, accept, decline, offer, would you like, shall we, how about, join, available, regret, arrangement, host`,
+`Would you like to ___?
+Shall we ___?
+I would love to, but I am busy.
+How about meeting at ___?
+Let me know if you can come.`,
+`Would you like some tea?
+Do you want to come to my house this weekend?
+Are you free on Sunday?
+What shall we do tomorrow?
+Can you come to my birthday party?
+How about going for a walk?
+Would you like to join us for lunch?
+Invite me to dinner at your house.
+How do you say no to an invitation politely?
+How do you offer help to someone?
+Plan a day out with a friend. Where and when will you go?
+How do you change a plan with a friend?
+Tell me about the last party you were invited to.
+What do you say when you cannot go to an event?
+What do you say when you are late to meet a friend?
+Role play: Invite a colleague to your wedding.
+Role play: Your friend invites you but you are busy. Decline politely.
+Role play: Plan a trip with two friends. Everyone has a different idea.
+How do you feel about meeting new people at events?
+What makes a good host?`,
+`Plan a trip with two friends. Invite them, offer ideas and agree on a date.`,
+`Write and say 3 invitations: one accepted, one declined, one changed.`);
+
+T(31,4,`Memories and Childhood`,`Talk about the past and what used to be different.`,
+`childhood, used to, grow up, memory, playground, neighbour, nostalgic, toy, cartoon, strict, miss, remember`,
+`I used to ___ when I was a child.
+We did not use to ___.
+I still remember ___.
+I miss ___.
+When I was ten, I ___.`,
+`Where did you grow up?
+What was your favourite toy?
+What was your favourite cartoon?
+Did you have a pet when you were small?
+What games did you play?
+Who was your best friend as a child?
+What did you want to be when you grew up?
+Describe your childhood home.
+What was a normal day like when you were ten?
+What did you use to do in the holidays?
+Tell me about your first day at school.
+What did you use to eat as a child?
+What do you miss most about being a child?
+Tell me about a happy memory from your childhood.
+Describe your favourite teacher from school.
+How was your childhood different from children's lives today?
+What were you afraid of as a child? Are you afraid of it now?
+What is the most important lesson you learned as a child?
+Tell me about a time you got in trouble as a child.
+What would you change about your childhood?`,
+`Meet an old friend. Remember your childhood together.`,
+`Talk for one minute about a happy childhood memory.`);
+
+T(32,4,`Money, Saving and Banking`,`Talk about spending, saving and managing money.`,
+`save, spend, budget, loan, bank account, interest, debt, income, expenses, invest, afford, salary`,
+`I try to save ___ every month.
+I cannot afford ___.
+I spend most of my money on ___.
+It is a good idea to ___.
+I would like to open an account.`,
+`Do you save money?
+What do you spend most of your money on?
+Do you have a bank account?
+Do you use a credit card or a debit card?
+What was the last big thing you bought?
+How much pocket money did you get as a child?
+Do you like spending or saving?
+How do you manage your money every month?
+What are you saving money for?
+How can people spend less money?
+What is the difference between a debit card and a credit card?
+Tell me about a time you wasted money.
+What do you say to a bank when you want to open an account?
+How do you decide if you can afford something?
+Tell me about a time you borrowed money or lent money.
+Can money buy happiness? Explain.
+What is more important: saving or enjoying money now?
+What financial advice would you give to a young person?
+Is it right to take a loan? When?
+How would your life change if you had a lot more money?`,
+`Go to a bank to open an account. Ask about the rules and fees.`,
+`Tell a friend how you manage money, in one minute.`);
+
+/* LEVEL 5 · UPPER-INTERMEDIATE (B2) */
+T(33,5,`Opinions and Debate`,`Give your opinion, give reasons and respond to other views.`,
+`opinion, agree, disagree, argue, point of view, in my opinion, on the other hand, advantage, disadvantage, convinced, evidence, however`,
+`In my opinion, ___.
+I strongly agree because ___.
+On the other hand, ___.
+I see your point, but ___.
+That is true, however ___.`,
+`Do you think homework is useful?
+Do you agree that money is important?
+Is it good to get up early?
+Is tea better than coffee?
+Do you think cats or dogs are better pets?
+Do you like winter?
+Is it good to learn many languages?
+Should children use mobile phones?
+Is it better to live alone or with family?
+Is social media good or bad for society?
+Should school uniforms be compulsory?
+Is online shopping better than going to shops?
+Should everyone go to university?
+Is it good to work from home?
+Do you think people are happier in cities or in villages?
+Do the advantages of technology outweigh the disadvantages?
+Should governments control social media?
+Is it fair for rich countries to tell poor countries what to do?
+Do you think one person can change a country alone?
+Have you ever changed your opinion about something? What made you change it?`,
+`Hold a small debate. One person speaks for and one speaks against a topic.`,
+`Choose a topic. Give 3 reasons for and 3 reasons against.`);
+
+T(34,5,`Storytelling and Describing Pictures`,`Tell stories clearly and describe what you see.`,
+`scene, background, foreground, suddenly, meanwhile, as a result, eventually, plot, character, unexpected, moral, ending`,
+`In this picture, I can see ___.
+It looks like ___.
+Meanwhile, ___.
+As a result, ___.
+In the end, ___.`,
+`What is your favourite story?
+Who is your favourite character in a story?
+Do you read books or watch movies?
+What did you read last?
+Who told you stories when you were small?
+Do you like funny or scary stories?
+What was the last film you saw?
+Tell me the story of your favourite film.
+Tell me a story from your childhood.
+Describe what you can see around you right now.
+Tell me the story of how you met a close friend.
+Describe a picture that you like. What does it show?
+Tell me a story using the words "suddenly" and "finally".
+Tell me a story that you heard from your grandparents.
+Retell a story from a book or a movie in one minute.
+Make up a short story about a person who finds a bag of money.
+Describe a picture. Say what happened before and what will happen after.
+Tell a story that has a moral. What does it teach?
+Tell me about the funniest day of your life.
+Tell me a story that starts with "I could not believe my eyes…"`,
+`Look at a picture. Tell a story about what happened before, what is happening and what will happen.`,
+`Tell a story in 2 minutes. Record it.`);
+
+T(35,5,`News and Current Events`,`Talk about news, public issues and how media works.`,
+`headline, report, government, election, economy, crisis, breaking news, announce, policy, citizens, public, increase, decrease`,
+`According to the news, ___.
+I read that ___.
+This is a serious problem because ___.
+The government should ___.
+It could lead to ___.`,
+`Do you watch the news?
+Where do you get your news from?
+Do you read newspapers?
+What was in the news today?
+Do you trust the news?
+Which news channel do you like?
+Do you talk about the news with your family?
+Tell me about a recent news story you found interesting.
+What are the biggest problems in your country now?
+What do you think about prices going up?
+How can people check if news is true?
+How is news different on social media and on TV?
+What good news have you heard recently?
+What is your opinion on a recent event in your country?
+What do you think about the way news channels show the news?
+Should news channels only show good news?
+What is fake news? How does it affect people?
+Is it important to know what happens in other countries?
+What role does the media play in a democracy?
+If you were the Prime Minister for one day, what would you do?`,
+`Talk about a news story with a friend. Share your opinions and ask questions.`,
+`Choose one news story. Tell it in your own words in 1 minute.`);
+
+T(36,5,`Environment and Nature`,`Discuss pollution, climate and what we can do to protect nature.`,
+`pollution, recycle, climate change, global warming, plastic, waste, energy, forest, endangered, protect, renewable, carbon`,
+`We should protect ___.
+One of the main causes is ___.
+If we do not act, ___.
+Everyone can help by ___.
+It is time to ___.`,
+`Do you like nature?
+Is there a lot of pollution in your city?
+Do you recycle at home?
+Do you plant trees?
+What is your favourite animal?
+Do you use plastic bags?
+Do you turn off the lights when you leave a room?
+What are the main environmental problems in your city?
+What can you do every day to save the planet?
+How is the air in your city?
+What is global warming and why is it dangerous?
+How can we reduce plastic?
+Describe the most beautiful natural place you have seen.
+What can schools do to teach children about the environment?
+What is the difference between renewable and non-renewable energy?
+Who is responsible for protecting the environment: the government or individuals?
+Should plastic be banned? Why or why not?
+Will we be able to stop climate change?
+What changes can you make in your life to help the planet?
+Describe the world in 50 years if we do nothing about pollution.`,
+`You are on a school panel. Say how students can protect the environment.`,
+`Make a plan of 5 green habits and explain it aloud.`);
+
+T(37,5,`Health and Lifestyle`,`Discuss healthy habits, stress and modern life.`,
+`lifestyle, balanced diet, stress, burnout, mental health, sleep, addiction, routine, wellbeing, junk food, fitness, habit`,
+`A healthy lifestyle means ___.
+It is important to ___.
+If you do not ___, you may ___.
+I try to ___.
+One bad habit I have is ___.`,
+`Do you eat healthy food?
+How often do you exercise?
+Do you drink enough water?
+Do you get enough sleep?
+Do you walk every day?
+Do you eat junk food?
+Do you take vitamins?
+What does a healthy lifestyle mean to you?
+How do you deal with stress?
+What are the good and bad habits you have?
+Why do so many people have problems sleeping?
+How can people eat more healthily?
+What can you do to stop a bad habit?
+How does exercise help your mind and body?
+Why is mental health important?
+Should junk food be taxed? Give your opinion.
+Why are so many young people stressed today?
+How can workplaces help employees stay healthy?
+Is it possible to be healthy without exercise?
+What is the role of family in helping people to be healthy?`,
+`A friend feels very stressed. Talk to him or her and give healthy ideas.`,
+`Talk for 2 minutes about your own lifestyle and how to improve it.`);
+
+T(38,5,`Job Interviews`,`Prepare and answer common interview questions with confidence.`,
+`interview, CV, resume, strengths, weaknesses, experience, qualification, apply, candidate, hire, teamwork, deadline`,
+`I am applying for the position of ___.
+My greatest strength is ___.
+I have ___ years of experience in ___.
+I work well in a team.
+In my last job, I ___.`,
+`Can you introduce yourself?
+What is your educational background?
+What are your strengths?
+What are your weaknesses?
+Why did you apply for this job?
+What are your hobbies?
+Are you ready to work full-time?
+Tell me about your work experience.
+Why should we hire you?
+Where do you see yourself in five years?
+Tell me about a time you worked in a team.
+How do you handle pressure and deadlines?
+Tell me about a problem you solved at work.
+What do you know about our company?
+What salary do you expect?
+Tell me about a time you failed. What did you learn?
+Describe a situation where you disagreed with your boss.
+How do you handle criticism?
+What motivates you to work?
+Do you have any questions for us?`,
+`Do a mock interview. One person is the interviewer and one is the candidate.`,
+`Prepare answers to 5 common interview questions. Practise aloud.`);
+
+T(39,5,`Culture, Traditions and Society`,`Explain your culture and discuss social change.`,
+`culture, custom, society, generation, value, respect, behaviour, elders, diversity, stereotype, habit, heritage`,
+`In my culture, ___.
+It is considered polite to ___.
+People in my country usually ___.
+Things have changed because ___.
+Many people believe that ___.`,
+`What is a traditional dress in your country?
+What language do people speak in your area?
+Do you respect elders in your culture?
+What is a typical greeting in your culture?
+What traditional foods do you have?
+What traditional music do you like?
+What is the biggest festival in your country?
+What is polite and what is rude in your culture?
+How are family relationships in your culture?
+What traditions are changing in your country?
+What do you think foreigners find strange about your culture?
+What can people from other countries learn from your culture?
+What are good manners in your country?
+Describe a typical wedding in your culture.
+How do young people and old people see things differently?
+Is it important to keep old traditions? Why?
+Do you think the world is becoming one culture?
+What are the common stereotypes about your country? Are they true?
+How can we show respect to people from different cultures?
+What would you like to change about your society?`,
+`Explain a custom from your country to a foreign guest.`,
+`Talk for 2 minutes about a tradition in your country.`);
+
+T(40,5,`Hypothetical Situations`,`Talk about imaginary situations: "If I were…, I would…".`,
+`imagine, suppose, if I were, would, could, wish, what if, regret, otherwise, unless, as if, in that case`,
+`If I had a million dollars, I would ___.
+If I were you, I would ___.
+I wish I could ___.
+What would you do if ___?
+If I had known, I would have ___.`,
+`What would you do if you won a lottery?
+What would you do if you had one free day?
+Where would you go if you could travel anywhere?
+What would you eat if you could eat anything?
+What would you buy if you had a lot of money?
+Who would you like to meet if you could meet anyone?
+What would you do if you lost your phone?
+What would you do if you were the Prime Minister?
+What would you do if you found a wallet on the road?
+If you could change one thing about the world, what would it be?
+If you could live in any time in history, when would you live?
+What would you do if you could be invisible for a day?
+If you could speak any language fluently, which one would you choose?
+If you could have any job in the world, what would it be?
+What would you do if you were stuck on an island?
+If you could go back in time, what would you change in your life?
+What would you do if you saw a crime?
+If you were a parent, what rules would you make?
+What would the world be like if everyone spoke one language?
+If you could give advice to the whole world, what would you say?`,
+`Play "What would you do?". Ask each other imaginary questions.`,
+`Make 10 "if" sentences about your life.`);
+
+/* LEVEL 6 · ADVANCED (C1) */
+T(41,6,`Presentations and Public Speaking`,`Speak clearly in front of a group and organise a talk.`,
+`audience, topic, introduce, outline, main point, example, conclude, visual, confident, eye contact, summarise, question`,
+`Today I am going to talk about ___.
+First, ___. Second, ___. Finally, ___.
+Let me give you an example.
+To sum up, ___.
+Thank you for listening. Are there any questions?`,
+`Are you comfortable speaking in front of people?
+What was the last presentation you gave?
+What was the topic?
+Do you get nervous before speaking?
+What do you do to calm your nerves?
+Do you use slides in your presentation?
+Who is the best speaker you know?
+How do you start a presentation to get attention?
+How do you organise a short talk?
+How do you handle difficult questions from the audience?
+What are the signs of a good presentation?
+Give a one-minute talk on your favourite place.
+Give a one-minute talk on "Why English is important".
+What can you do to make your voice more interesting?
+How do you use body language when you speak?
+Give a two-minute talk on a topic of your choice. Use an introduction, three points and a conclusion.
+What are the common mistakes in a presentation?
+Explain a difficult idea to a child in one minute.
+Persuade me in one minute to visit your city.
+How can public speaking help in life?`,
+`Give a 3-minute presentation. The group asks questions at the end.`,
+`Prepare and record a 3-minute talk on any topic.`);
+
+T(42,6,`Negotiation and Persuasion`,`Persuade, bargain and reach agreements politely.`,
+`negotiate, compromise, offer, counter-offer, deal, bargain, persuade, convince, benefit, concession, terms, proposal`,
+`I understand your point, but ___.
+How about we ___?
+I can offer you ___ if you ___.
+Let us find a middle ground.
+That sounds fair. We have a deal.`,
+`Do you bargain when you shop?
+What do you do when you want a lower price?
+Do you like to argue?
+Have you ever persuaded someone to do something?
+Do you give in easily?
+What do you do when you disagree with a friend?
+Who is a good negotiator in your family?
+How do you ask for a discount politely?
+How do you persuade a friend to join you on a trip?
+What do you say when you want to change someone's mind?
+Tell me about a time you made a compromise.
+How do you ask your boss for a day off?
+What makes someone a good negotiator?
+What do you do if the other person does not agree with you at all?
+How do you ask for a raise in salary?
+Role play: You want to buy a second-hand car. Negotiate the price.
+Role play: Persuade your friend to stop smoking.
+Role play: You and your friend have different ideas about a holiday. Reach a compromise.
+Role play: You want to extend a project deadline. Convince your manager.
+Is it right to use emotions to persuade people?`,
+`Negotiate a price for a second-hand car or a laptop.`,
+`Prepare your argument for a salary raise in 5 sentences.`);
+
+T(43,6,`Business English and Meetings`,`Use polite, professional English in meetings and at work.`,
+`agenda, deadline, schedule, client, proposal, budget, follow up, minutes, target, colleague, department, update, urgent`,
+`Let us start with the first point on the agenda.
+Could you clarify what you mean?
+I will follow up by email.
+We need to meet the deadline.
+I would like to add something.`,
+`What is your job title?
+What does your company do?
+Do you have many meetings?
+How do you start a meeting?
+Do you write emails at work?
+Do you use English at work?
+What time does your working day begin?
+How do you prepare for a meeting?
+How do you give an update to your team?
+How do you politely interrupt in a meeting?
+How do you disagree with someone in a meeting politely?
+How do you say you did not hear or understand something?
+How do you introduce yourself to a new client?
+How do you end a meeting?
+How do you say you will be late for a meeting?
+Role play: Present your team's progress to your manager.
+Role play: Welcome a client from another country.
+Role play: You cannot meet a deadline. Explain it to your manager.
+What makes a good team leader?
+How can a company improve communication between teams?`,
+`Hold a team meeting. Discuss the agenda, give updates and agree on next steps.`,
+`Write a short email in English and then say it aloud as if you were in a meeting.`);
+
+T(44,6,`Success, Happiness and Change`,`Discuss big ideas and explain your values in depth.`,
+`success, happiness, ambition, failure, balance, purpose, regret, motivation, achievement, fulfilment, resilience, priority`,
+`To me, success means ___.
+What matters most is ___.
+It depends on ___.
+On reflection, ___.
+Looking back, I realise that ___.`,
+`What does success mean to you?
+What small things make you happy every day?
+What is your biggest dream?
+What is your biggest fear?
+Who inspires you?
+What are you proud of?
+What is your best quality?
+How do you define a successful life?
+Is it more important to be rich or to be happy?
+How do you stay motivated when things are hard?
+What is the best thing about getting older?
+How do you handle failure?
+What change in your life has taught you the most?
+What do you want people to remember about you?
+What is your idea of a perfect life?
+Can money buy happiness?
+Does failure lead to success?
+Is it possible to have everything in life: career, family and free time?
+What do you regret and what have you learned from it?
+If you knew you could not fail, what would you do?`,
+`Hold a talk-show conversation on "What is success?"`,
+`Talk for 2 minutes about "What success means to me". Record it.`);
+
+T(45,6,`Idioms and Natural Spoken English`,`Sound more natural with common idioms and spoken phrases.`,
+`break the ice, piece of cake, under the weather, hit the books, on the same page, in the long run, a blessing in disguise, call it a day, cost an arm and a leg, once in a blue moon`,
+`That exam was a piece of cake.
+I am feeling under the weather.
+Let us call it a day.
+It costs an arm and a leg.
+Let us make sure we are on the same page.`,
+`What does "a piece of cake" mean? Use it in a sentence.
+What does "under the weather" mean? When do you feel like that?
+What does "break the ice" mean?
+What do you say when something is very expensive?
+What does "hit the books" mean?
+What does "once in a blue moon" mean? What do you do once in a blue moon?
+Which idiom do you like the most?
+Tell me about something that was a "piece of cake" for you.
+Tell me about a time you were "under the weather".
+How do you "break the ice" with someone you do not know?
+What is the difference between "How do you do?" and "How are you?"
+What do you say when you agree strongly, for example "Absolutely!"?
+Tell me about something that was "a blessing in disguise".
+What expressions do you use when you are surprised?
+What are some common fillers in English, such as "well" and "you know"? When do you use them?
+Use three idioms in a short story.
+Explain an idiom from your own language in English.
+Why is it hard to learn idioms?
+Describe your day using five new expressions you have learned.
+What helps you learn natural English: films, songs or conversation?`,
+`Have a chat in which each person must use at least 3 idioms.`,
+`Learn 5 new idioms. Use each one in a sentence.`);
+
+T(46,6,`Free Conversation and Impromptu Speaking`,`Speak without preparation and keep talking with confidence.`,
+`spontaneous, fluent, hesitate, rephrase, elaborate, give an example, by the way, in other words, to be honest, as far as I know`,
+`Let me think about that for a moment.
+To be honest, ___.
+In other words, ___.
+For example, ___.
+As far as I know, ___.`,
+`What is the best thing that happened to you this week?
+What are you looking forward to?
+What is something you learned recently?
+What was the last thing that made you laugh?
+What is your favourite place in the world?
+What is a song you like and why?
+What is the first thing you do when you wake up?
+Talk for one minute about a person you admire.
+Talk for one minute about an object you cannot live without.
+Talk for one minute about a place that is special to you.
+Talk for one minute about a trip you remember.
+Talk for one minute about a problem in your area and its solution.
+Talk for one minute about how you use English in your life.
+Talk for one minute about a skill you want to learn.
+Talk for one minute about a book, a film or a series you love.
+Talk for two minutes about the most important decision you have made.
+Talk for two minutes: "Is technology making life better?"
+Talk for two minutes: "What will the world be like in 2050?"
+Talk for two minutes about something you have changed your mind about.
+Talk for two minutes: "What is the best advice for a happy life?"`,
+`Have a 5-minute free conversation with no notes, in which both people ask questions.`,
+`Each day, talk for 2 minutes on a random topic. Use a timer.`);
+
+
+const LEVELS = [
+  {n:1, name:'Starter', cefr:'A1', desc:'Simple facts about you, your family, your home and your day.'},
+  {n:2, name:'Elementary', cefr:'A2', desc:'Everyday places and situations: shops, restaurants, directions, health.'},
+  {n:3, name:'Pre-Intermediate', cefr:'A2+/B1', desc:'Past events, future plans, work, travel and technology.'},
+  {n:4, name:'Intermediate', cefr:'B1', desc:'Experiences, comparing, advice, rules, problems and invitations.'},
+  {n:5, name:'Upper-Intermediate', cefr:'B2', desc:'Opinions, debates, stories, news, environment and interviews.'},
+  {n:6, name:'Advanced', cefr:'C1', desc:'Presentations, negotiation, business English, abstract ideas and free speaking.'}
 ];
+const TIERS = [
+  {name:'Warm-up', from:0, to:7, hint:'Short answers: 1 or 2 sentences'},
+  {name:'Talk', from:7, to:15, hint:'Longer answers: 3 to 5 sentences'},
+  {name:'Challenge', from:15, to:20, hint:'Opinion, story or role play: 1 minute or more'}
+];
+const TOTAL_Q = TOPICS.reduce((a, t) => a + t.q.length, 0);
+const TMAP = Object.fromEntries(TOPICS.map(t => [t.id, t]));
+const lvlOf = n => LEVELS.find(l => l.n === n);
+const tierOf = i => TIERS.find(t => i >= t.from && i < t.to) || TIERS[2];
 
+const RK = ['fluency','pronunciation','vocabulary','grammar','listening','confidence'];
 const LABELS = {
-  speaking:'Speaking (bolna)',
-  listening:'Listening (sunke samajhna)',
-  pronunciation:'Pronunciation (sahi uchcharan)',
-  confidence:'Confidence (jhijhak khatam)'
+  fluency:'Fluency (speaking smoothly)', pronunciation:'Pronunciation (clear sounds)', vocabulary:'Vocabulary (right words)',
+  grammar:'Grammar (correct sentences)', listening:'Listening (understanding)', confidence:'Confidence (not afraid to speak)'
 };
-const KEYS = Object.keys(LABELS);
-const RATE_HINT = ['', '1 · Bahut kamzor', '2 · Kamzor', '3 · Theek-thaak', '4 · Accha', '5 · Bahut accha'];
-const SKILL_LABEL = ['Shuru nahi', 'Seekh raha hai', 'Practice chal rahi', 'Pakka ✔'];
-const WORD_LABEL = ['Seekh raha', 'Yaad hai', 'Bolne mein use karta hai'];
-const HW = {done:'Homework: Done', partly:'Homework: Adha', no:'Homework: Nahi kiya', na:'Homework: Diya nahi'};
+const SHORT = {fluency:'Fluency', pronunciation:'Pronunciation', vocabulary:'Vocabulary', grammar:'Grammar', listening:'Listening', confidence:'Confidence'};
+const RATE_HINT = ['', '1 · Very weak', '2 · Weak', '3 · OK', '4 · Good', '5 · Very good'];
+const ST_LABEL = ['Not started', 'Teaching', 'Practising', 'Mastered'];
+const Q_LABEL = ['Not asked yet', 'Needs more work', 'Answered well'];
+const Q_ICON = ['○', '◐', '✔'];
+const HW = {done:'Homework: done', partly:'Homework: partly', no:'Homework: not done', na:'Homework: not given'};
 const HW_CLASS = {done:'ok', partly:'warn', no:'bad', na:''};
-const TABS = [['dash','Dashboard'],['skills','Skills Checklist'],['sessions','Class Log'],['words','Words'],['more','Backup & Settings']];
+const FOLLOW_UPS = ['Why?', 'Can you give an example?', 'Tell me more.', 'What happened next?', 'How do you feel about it?', 'Really? How come?'];
+const TABS = [['dash','Dashboard'],['topics','Topics'],['practice','Speaking Practice'],['log','Class Log'],['more','Backup & Settings']];
 
-/* ---------- Helpers ---------- */
+/* ================= HELPERS ================= */
 const $ = (s, r=document) => r.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const pad = n => String(n).padStart(2,'0');
+const pad = n => String(n).padStart(2, '0');
 const isoOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const today = () => isoOf(new Date());
 const okDate = s => /^\d{4}-\d{2}-\d{2}$/.test(String(s));
@@ -226,437 +1610,480 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const num = v => Number.isFinite(Number(v)) ? Number(v) : 0;
 const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+const obj = v => v && typeof v === 'object' && !Array.isArray(v) ? v : {};
+const shuffleIdx = n => Math.floor(Math.random() * n);
 
-/* ---------- Storage ---------- */
-const KEY = 'englishSpeakingTracker.v1';
+/* ================= STORAGE ================= */
+const KEY = 'englishCourseTracker.v1';
 let storageOK = true;
 
 function normStudent(s) {
-  s = s && typeof s === 'object' ? s : {};
-  const skills = {};
-  if (s.skills && typeof s.skills === 'object' && !Array.isArray(s.skills)) {
-    for (const [k, v] of Object.entries(s.skills)) skills[k] = clamp(Math.round(num(v)), 0, 3);
+  s = obj(s);
+  const topics = {}, src = obj(s.topics);
+  for (const t of TOPICS) {
+    const x = obj(src[t.id]), qsrc = obj(x.qs), qs = {};
+    for (let i = 0; i < t.q.length; i++) { const v = Math.round(num(qsrc[i])); if (v === 1 || v === 2) qs[i] = v; }
+    const status = clamp(Math.round(num(x.status)), 0, 3);
+    if (status || Object.keys(qs).length || x.notes || x.last) topics[t.id] = {status, qs, notes: String(x.notes || ''), last: okDate(x.last) ? x.last : ''};
   }
-  const sessions = (Array.isArray(s.sessions) ? s.sessions : []).filter(x => x && typeof x === 'object').map(x => ({
-    id: String(x.id || uid()),
-    date: okDate(x.date) ? x.date : today(),
-    minutes: Math.max(0, Math.round(num(x.minutes))),
-    topic: String(x.topic || ''),
-    newWords: Math.max(0, Math.round(num(x.newWords))),
-    homework: ['done','partly','no','na'].includes(x.homework) ? x.homework : 'na',
-    speaking: clamp(Math.round(num(x.speaking)), 1, 5),
-    listening: clamp(Math.round(num(x.listening)), 1, 5),
-    pronunciation: clamp(Math.round(num(x.pronunciation)), 1, 5),
-    confidence: clamp(Math.round(num(x.confidence)), 1, 5),
-    notes: String(x.notes || ''),
-    next: String(x.next || '')
-  }));
-  const words = (Array.isArray(s.words) ? s.words : []).filter(x => x && typeof x === 'object').map(x => ({
-    id: String(x.id || uid()),
-    word: String(x.word || '').trim(),
-    meaning: String(x.meaning || ''),
-    example: String(x.example || ''),
-    status: clamp(Math.round(num(x.status)), 0, 2),
-    added: okDate(x.added) ? x.added : today()
-  })).filter(w => w.word);
+  const qLog = {};
+  for (const [k, v] of Object.entries(obj(s.qLog))) if (okDate(k)) qLog[k] = Math.max(0, Math.round(num(v)));
+  const sessions = (Array.isArray(s.sessions) ? s.sessions : []).filter(x => x && typeof x === 'object').map(x => {
+    const r = {
+      id: String(x.id || uid()), date: okDate(x.date) ? x.date : today(), minutes: Math.max(0, Math.round(num(x.minutes))),
+      topic: TMAP[x.topic] ? x.topic : '', other: String(x.other || ''), qCount: Math.max(0, Math.round(num(x.qCount))),
+      homework: ['done','partly','no','na'].includes(x.homework) ? x.homework : 'na', notes: String(x.notes || ''), next: String(x.next || '')
+    };
+    RK.forEach(k => r[k] = clamp(Math.round(num(x[k])), 1, 5));
+    return r;
+  });
   return {
-    id: String(s.id || uid()),
-    name: String(s.name || 'Student'),
-    start: okDate(s.start) ? s.start : today(),
-    goal: String(s.goal || ''),
-    notes: String(s.notes || ''),
-    skills, sessions, words
+    id: String(s.id || uid()), name: String(s.name || 'Student'), start: okDate(s.start) ? s.start : today(),
+    goal: String(s.goal || ''), notes: String(s.notes || ''), topics, qLog, sessions
   };
 }
 function normDb(d) {
   const students = (d && Array.isArray(d.students) ? d.students : []).map(normStudent);
-  const activeId = students.some(s => s.id === (d && d.activeId)) ? d.activeId : (students[0] ? students[0].id : null);
-  return {students, activeId};
+  return {students, activeId: students.some(s => s.id === (d && d.activeId)) ? d.activeId : (students[0] ? students[0].id : null)};
 }
 function load() {
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (raw) return normDb(JSON.parse(raw));
-  } catch (e) { /* fall through */ }
-  try { localStorage.setItem(KEY + '.probe', '1'); localStorage.removeItem(KEY + '.probe'); }
-  catch (e) { storageOK = false; }
+  try { const raw = localStorage.getItem(KEY); if (raw) return normDb(JSON.parse(raw)); } catch (e) { /* ignore */ }
+  try { localStorage.setItem(KEY + '.probe', '1'); localStorage.removeItem(KEY + '.probe'); } catch (e) { storageOK = false; }
   return {students: [], activeId: null};
 }
 function save() {
-  try { localStorage.setItem(KEY, JSON.stringify(db)); storageOK = true; }
-  catch (e) { storageOK = false; renderBanner(); }
+  try { localStorage.setItem(KEY, JSON.stringify(db)); storageOK = true; } catch (e) { storageOK = false; renderBanner(); }
 }
 let db = load();
 
-/* ---------- UI state ---------- */
+/* ================= STATE ================= */
 let tab = 'dash';
-let editingSession = null;
-let formRatings = {speaking:0, listening:0, pronunciation:0, confidence:0};
-let wordFilter = '';
+let openTopic = null;          // topic id shown in detail view
+let lvlFilter = 0, topicSearch = '';
+let editingSession = null, logTopic = '';
+let formRatings = {};
+let pr = {scope:'all', tier:'all', mode:'new', current:null, doneNow:0};
 let dlgMode = 'new';
-
+let timerId = null;
+const resetRatings = () => { formRatings = Object.fromEntries(RK.map(k => [k, 0])); };
+resetRatings();
 const active = () => db.students.find(s => s.id === db.activeId) || null;
+const getT = (st, id) => st.topics[id] || {status:0, qs:{}, notes:'', last:''};
+const ensureT = (st, id) => st.topics[id] || (st.topics[id] = {status:0, qs:{}, notes:'', last:''});
 
 function toast(msg) {
   const t = $('#toast'); t.textContent = msg; t.classList.add('show');
   clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-/* ---------- Calculations ---------- */
-function sortedSessions(st) {
-  return [...st.sessions].sort((a, b) => a.date === b.date ? a.id.localeCompare(b.id) : a.date.localeCompare(b.date));
+/* ================= SPEECH ================= */
+const canSpeak = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+function speak(text) {
+  if (!canSpeak) return;
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; u.rate = 0.85; speechSynthesis.speak(u); } catch (e) { /* ignore */ }
 }
-function sessionAvg(x) { return avg(KEYS.map(k => x[k])); }
+const spkBtn = text => canSpeak ? `<button type="button" class="spk" data-say="${esc(text)}" aria-label="Listen: ${esc(text)}">🔊</button>` : '';
+
+/* ================= CALCULATIONS ================= */
+const sortedSessions = st => [...st.sessions].sort((a, b) => a.date === b.date ? a.id.localeCompare(b.id) : a.date.localeCompare(b.date));
+const sessionAvg = x => avg(RK.map(k => x[k]));
 function streakOf(sessions) {
-  const set = new Set(sessions.map(s => s.date));
-  const d = new Date();
+  const set = new Set(sessions.map(s => s.date)); const d = new Date();
   if (!set.has(isoOf(d))) d.setDate(d.getDate() - 1);
-  let n = 0;
-  while (set.has(isoOf(d))) { n++; d.setDate(d.getDate() - 1); }
+  let n = 0; while (set.has(isoOf(d))) { n++; d.setDate(d.getDate() - 1); } return n;
+}
+function topicStats(st, t) {
+  const x = getT(st, t.id); let well = 0, work = 0;
+  for (let i = 0; i < t.q.length; i++) { if (x.qs[i] === 2) well++; else if (x.qs[i] === 1) work++; }
+  return {well, work, total: t.q.length, status: x.status};
+}
+function levelStats(st) {
+  return LEVELS.map(L => {
+    const ts = TOPICS.filter(t => t.level === L.n);
+    const pts = ts.reduce((a, t) => a + getT(st, t.id).status, 0);
+    const mastered = ts.filter(t => getT(st, t.id).status === 3).length;
+    return {L, count: ts.length, mastered, pct: Math.round(pts / (3 * ts.length) * 100)};
+  });
+}
+function overall(st) {
+  const pts = TOPICS.reduce((a, t) => a + getT(st, t.id).status, 0);
+  const mastered = TOPICS.filter(t => getT(st, t.id).status === 3).length;
+  let well = 0, asked = 0;
+  TOPICS.forEach(t => { const s = topicStats(st, t); well += s.well; asked += s.well + s.work; });
+  return {pct: Math.round(pts / (3 * TOPICS.length) * 100), mastered, well, asked};
+}
+const nextTopic = st => TOPICS.find(t => getT(st, t.id).status < 3) || null;
+function weekQuestions(st) {
+  const t = today(); let n = 0;
+  for (const [d, c] of Object.entries(st.qLog)) { const k = daysBetween(t, d); if (k >= 0 && k < 7) n += c; }
   return n;
 }
-function skillStats(st) {
-  let total = 0, points = 0, mastered = 0;
-  const stages = STAGES.map(g => {
-    let p = 0, m = 0;
-    g.skills.forEach(([id]) => { const v = st.skills[id] || 0; p += v; if (v === 3) m++; });
-    total += g.skills.length; points += p; mastered += m;
-    return {g, done: m, count: g.skills.length, pct: Math.round(p / (3 * g.skills.length) * 100)};
-  });
-  return {total, mastered, pct: Math.round(points / (3 * total) * 100), stages};
-}
-function levelName(pct) {
-  if (pct < 8) return 'Absolute Beginner (zero)';
-  if (pct < 30) return 'Beginner';
-  if (pct < 60) return 'Elementary';
-  if (pct < 85) return 'Pre-Intermediate';
-  return 'Intermediate';
-}
 
-/* ---------- Rendering ---------- */
+/* ================= RENDER ================= */
 function renderBanner() {
-  $('#banner').innerHTML = storageOK ? '' :
-    '<div class="banner no-print">Browser storage band hai, isliye data save nahi hoga. Kaam ke baad "Backup & Settings" se Export zaroor karein.</div>';
+  $('#banner').innerHTML = storageOK ? '' : '<div class="banner no-print">Browser storage is blocked, so your data will not be saved. Use Export in "Backup & Settings" before you close this page.</div>';
 }
 function renderBar() {
   const sel = $('#studentSel');
-  sel.innerHTML = db.students.map(s => `<option value="${esc(s.id)}"${s.id === db.activeId ? ' selected' : ''}>${esc(s.name)}</option>`).join('')
-    || '<option>— koi student nahi —</option>';
+  sel.innerHTML = db.students.map(s => `<option value="${esc(s.id)}"${s.id === db.activeId ? ' selected' : ''}>${esc(s.name)}</option>`).join('') || '<option>No student yet</option>';
   sel.disabled = !db.students.length;
-  $('#tabs').innerHTML = TABS.map(([id, label]) =>
-    `<button role="tab" data-act="tab" data-id="${id}" aria-selected="${tab === id}">${label}</button>`).join('');
+  $('#tabs').innerHTML = TABS.map(([id, label]) => `<button role="tab" data-act="tab" data-id="${id}" aria-selected="${tab === id}">${label}</button>`).join('');
   $('#tabs').style.display = db.students.length ? '' : 'none';
 }
 function render() {
   const y = window.scrollY;
-  renderBanner();
-  renderBar();
-  const st = active();
-  const main = $('#main');
+  clearInterval(timerId); timerId = null;
+  renderBanner(); renderBar();
+  const st = active(), main = $('#main');
   if (!st) {
-    main.innerHTML = `<div class="card empty">
-      <h2>Swagat hai, Teacher!</h2>
-      <p class="muted">Sabse pehle apne student ka profile banayein. Phir yahan uski poori progress track hogi.</p>
-      <button class="btn primary" data-act="new-student">+ Pehla student add karo</button></div>`;
+    main.innerHTML = `<div class="card empty"><h2>Welcome, Teacher!</h2>
+      <p class="muted">Create your first student. Then pick topics, ask speaking questions and track progress from Basics to Advanced.</p>
+      <button class="btn primary" data-act="new-student">+ Add first student</button></div>`;
     return;
   }
-  main.innerHTML = {dash: dashHTML, skills: skillsHTML, sessions: sessionsHTML, words: wordsHTML, more: moreHTML}[tab](st);
+  main.innerHTML = {dash: dashHTML, topics: topicsHTML, practice: practiceHTML, log: logHTML, more: moreHTML}[tab](st);
   window.scrollTo(0, y);
 }
+const statHTML = (v, l) => `<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`;
 
-function statHTML(v, l) { return `<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`; }
-
+/* ---------- Dashboard ---------- */
 function dashHTML(st) {
-  const ss = sortedSessions(st);
-  const sk = skillStats(st);
-  const mins = ss.reduce((a, s) => a + s.minutes, 0);
-  const known = st.words.filter(w => w.status >= 1).length;
-  const last = ss[ss.length - 1];
-  const t = today();
-  const week = ss.filter(s => daysBetween(t, s.date) >= 0 && daysBetween(t, s.date) < 7);
+  const ss = sortedSessions(st), ov = overall(st), lv = levelStats(st);
+  const mins = ss.reduce((a, s) => a + s.minutes, 0), last = ss[ss.length - 1], t = today();
   const hwGiven = ss.filter(s => s.homework !== 'na');
   const hwRate = hwGiven.length ? Math.round(hwGiven.filter(s => s.homework === 'done').length / hwGiven.length * 100) + '%' : '—';
   const sinceLast = last ? daysBetween(t, last.date) : null;
-  const sinceTxt = last === undefined ? '—' : sinceLast <= 0 ? 'Aaj' : sinceLast === 1 ? 'Kal' : sinceLast + ' din pehle';
+  const sinceTxt = !last ? '—' : sinceLast <= 0 ? 'Today' : sinceLast === 1 ? 'Yesterday' : sinceLast + ' days ago';
+  const cur = lv.find(x => x.mastered < x.count);
+  const curTxt = cur ? `Level ${cur.L.n} · ${cur.L.name} (${cur.L.cefr})` : 'All levels complete';
+  const nt = nextTopic(st);
 
-  // improvement
-  let trend = '<span class="muted">Kam se kam 2 sessions chahiye</span>';
+  let trend = '<span class="muted">Add at least 2 classes to see the trend.</span>';
   if (ss.length >= 2) {
     const k = Math.min(3, Math.floor(ss.length / 2));
-    const first = avg(ss.slice(0, k).map(sessionAvg)), lastA = avg(ss.slice(-k).map(sessionAvg));
-    const d = lastA - first;
-    const cls = d > 0.05 ? 'ok' : d < -0.05 ? 'bad' : 'warn';
-    const arrow = d > 0.05 ? '▲' : d < -0.05 ? '▼' : '■';
-    trend = `<span class="pill ${cls}">${arrow} ${d >= 0 ? '+' : ''}${d.toFixed(1)}</span> <span class="muted small">(pehle ${first.toFixed(1)} → ab ${lastA.toFixed(1)} / 5)</span>`;
+    const first = avg(ss.slice(0, k).map(sessionAvg)), lastA = avg(ss.slice(-k).map(sessionAvg)), d = lastA - first;
+    const cls = d > 0.05 ? 'ok' : d < -0.05 ? 'bad' : 'warn', arrow = d > 0.05 ? '▲' : d < -0.05 ? '▼' : '■';
+    trend = `<span class="pill ${cls}">${arrow} ${d >= 0 ? '+' : ''}${d.toFixed(1)}</span> <span class="muted small">(before ${first.toFixed(1)} → now ${lastA.toFixed(1)} out of 5)</span>`;
   }
-  // focus area
-  let focus = '<span class="muted">Sessions add karein, phir yahan batayega kahan mehnat chahiye.</span>';
+  let focus = '<span class="muted">Add classes and this will show what to work on next.</span>';
   if (ss.length) {
-    const recent = ss.slice(-5);
-    const means = KEYS.map(k => [k, avg(recent.map(s => s[k]))]).sort((a, b) => a[1] - b[1]);
-    focus = `Is waqt sabse zyada focus: <b>${esc(LABELS[means[0][0]])}</b> (avg ${means[0][1].toFixed(1)}/5). Sabse strong: ${esc(LABELS[means[3][0]])} (${means[3][1].toFixed(1)}/5).`;
+    const rec = ss.slice(-5), m = RK.map(k => [k, avg(rec.map(s => s[k]))]).sort((a, b) => a[1] - b[1]);
+    focus = `Work most on <b>${esc(LABELS[m[0][0]])}</b> (average ${m[0][1].toFixed(1)}/5). Strongest: ${esc(SHORT[m[m.length - 1][0]])} (${m[m.length - 1][1].toFixed(1)}/5).`;
   }
-  const curStage = sk.stages.find(x => x.done < x.count);
-  const stageTxt = curStage ? curStage.g.title : 'Saare stages complete!';
-  const lastNext = last && last.next ? `<div class="card"><h2>Agle class ka plan</h2><div class="notes">${esc(last.next)}</div></div>` : '';
+  const nextCard = nt ? (() => { const s = topicStats(st, nt); return `<div class="card">
+      <h2>Next topic to teach</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+        <div><b style="font-size:17px">${nt.n}. ${esc(nt.title)}</b><div class="muted small">Level ${nt.level} · ${esc(lvlOf(nt.level).name)} · ${s.well}/${s.total} questions answered well</div>
+        <div class="small" style="margin-top:4px">${esc(nt.goal)}</div></div>
+        <button class="btn primary" data-act="open-topic" data-id="${nt.id}">Open this topic</button>
+      </div></div>`; })() : '<div class="card"><h2>Course complete</h2><p>All 46 topics are mastered. Well done!</p></div>';
+  const lastNext = last && last.next ? `<div class="card"><h2>Plan for the next class</h2><div class="notes">${esc(last.next)}</div></div>` : '';
 
   return `
-  <div class="print-only"><h1>${esc(st.name)} — English Progress Report</h1><div class="small">${esc(fmtDate(t))}</div></div>
+  <div class="print-only"><h1>${esc(st.name)} — English Speaking Progress Report</h1><div class="small">${esc(fmtDate(t))}</div></div>
   <div class="card">
-    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:flex-start">
-      <div>
-        <h2 style="margin-bottom:2px">${esc(st.name)}</h2>
-        <div class="muted small">Shuru: ${esc(fmtDate(st.start))}${st.goal ? ' · Goal: ' + esc(st.goal) : ''}</div>
-      </div>
-      <div style="text-align:right">
-        <div class="small muted">Current level</div>
-        <div style="font-weight:700;font-size:17px">${esc(levelName(sk.pct))}</div>
-      </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px">
+      <div><h2 style="margin-bottom:2px">${esc(st.name)}</h2><div class="muted small">Started: ${esc(fmtDate(st.start))}${st.goal ? ' · Goal: ' + esc(st.goal) : ''}</div></div>
+      <div style="text-align:right"><div class="small muted">Current level</div><div style="font-weight:700;font-size:17px">${esc(curTxt)}</div></div>
     </div>
-    <div style="margin-top:12px">
-      <div class="small muted" style="display:flex;justify-content:space-between"><span>Overall course progress</span><span>${sk.pct}%</span></div>
-      <div class="bar" role="progressbar" aria-valuenow="${sk.pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${sk.pct}%"></i></div>
-      <div class="small muted" style="margin-top:6px">Abhi chal raha hai: ${esc(stageTxt)}</div>
-    </div>
+    <div style="margin-top:12px"><div class="small muted" style="display:flex;justify-content:space-between"><span>Overall course progress</span><span>${ov.pct}%</span></div>
+      <div class="bar" role="progressbar" aria-valuenow="${ov.pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${ov.pct}%"></i></div></div>
   </div>
-
+  ${nextCard}
   <div class="grid stats" style="margin-bottom:14px">
-    ${statHTML(ss.length, 'Total classes')}
-    ${statHTML((mins / 60).toFixed(1) + ' h', 'Total padhai ka time')}
-    ${statHTML(week.length + ' <span class="small muted">/ ' + week.reduce((a, s) => a + s.minutes, 0) + ' min</span>', 'Pichle 7 din')}
-    ${statHTML(streakOf(ss) + ' din', 'Lagatar classes (streak)')}
+    ${statHTML(ss.length, 'Classes')}
+    ${statHTML((mins / 60).toFixed(1) + ' h', 'Total class time')}
+    ${statHTML(ov.mastered + '/' + TOPICS.length, 'Topics mastered')}
+    ${statHTML(ov.well + '<span class="small muted"> / ' + TOTAL_Q + '</span>', 'Questions answered well')}
+    ${statHTML(weekQuestions(st), 'Questions practised (7 days)')}
+    ${statHTML(streakOf(ss) + ' days', 'Class streak')}
     ${statHTML(sinceTxt, 'Last class')}
-    ${statHTML(known, 'Words yaad hain')}
-    ${statHTML(sk.mastered + '/' + sk.total, 'Skills pakki')}
-    ${statHTML(hwRate, 'Homework completion')}
+    ${statHTML(hwRate, 'Homework done')}
   </div>
-
   <div class="grid row2" style="margin-bottom:14px">
     <div class="card" style="margin:0"><h3>Improvement</h3>${trend}</div>
-    <div class="card" style="margin:0"><h3>Teacher ke liye suggestion</h3><div class="small">${focus}</div></div>
+    <div class="card" style="margin:0"><h3>Suggestion for the teacher</h3><div class="small">${focus}</div></div>
   </div>
-
-  <div class="card">
-    <h2>Ratings ka graph (har class ke baad)</h2>
-    ${chartHTML(ss)}
+  <div class="card"><h2>Progress by level</h2>
+    ${lv.map(x => `<div class="lvl-row"><div><b class="small">Level ${x.L.n} · ${esc(x.L.name)} (${esc(x.L.cefr)})</b></div>
+      <div class="bar${x.pct === 100 ? ' ok' : ''}"><i style="width:${x.pct}%"></i></div>
+      <div class="small muted" style="text-align:right">${x.mastered}/${x.count}</div></div>`).join('')}
   </div>
-
-  <div class="card">
-    <h2>Stage-wise progress</h2>
-    ${sk.stages.map(x => `<div class="stage-row">
-      <div><b class="small">${esc(x.g.title)}</b></div>
-      <div class="bar"><i style="width:${x.pct}%"></i></div>
-      <div class="small muted" style="text-align:right">${x.done}/${x.count}</div></div>`).join('')}
-  </div>
+  <div class="card"><h2>Speaking ratings (after each class)</h2>${chartHTML(ss)}</div>
   ${lastNext}
-  <div class="no-print" style="text-align:right"><button class="btn" data-act="print">Progress report print karo</button></div>`;
+  <div class="no-print" style="text-align:right"><button class="btn" data-act="print">Print progress report</button></div>`;
 }
 
 function chartHTML(ss) {
-  if (!ss.length) return '<p class="muted">Abhi koi class log nahi hai. "Class Log" tab mein pehla session add karein.</p>';
-  const data = ss.slice(-20);
-  const W = 640, H = 250, L = 30, R = 12, T = 12, B = 30;
-  const iw = W - L - R, ih = H - T - B, n = data.length;
-  const x = i => n === 1 ? L + iw / 2 : L + i * iw / (n - 1);
-  const y = v => T + ih * (1 - (v - 1) / 4);
+  if (!ss.length) return '<p class="muted">No classes yet. Add the first class in the "Class Log" tab.</p>';
+  const data = ss.slice(-20), W = 640, H = 250, L = 30, R = 12, T0 = 12, B = 30, iw = W - L - R, ih = H - T0 - B, n = data.length;
+  const x = i => n === 1 ? L + iw / 2 : L + i * iw / (n - 1), y = v => T0 + ih * (1 - (v - 1) / 4);
   let g = '';
   for (let v = 1; v <= 5; v++) g += `<line class="gl" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
   const ticks = n <= 6 ? data.map((_, i) => i) : [0, Math.floor((n - 1) / 2), n - 1];
   const xl = ticks.map(i => `<text class="ax" x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 && n > 1 ? 'start' : i === n - 1 && n > 1 ? 'end' : 'middle'}">${esc(fmtShort(data[i].date))}</text>`).join('');
-  const series = KEYS.map(k => {
+  const series = RK.map(k => {
     const pts = data.map((d, i) => `${x(i).toFixed(1)},${y(d[k]).toFixed(1)}`).join(' ');
-    const dots = data.map((d, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(d[k]).toFixed(1)}" r="3.5" fill="var(--c-${k})"><title>${esc(fmtDate(d.date))} · ${esc(LABELS[k])}: ${d[k]}/5</title></circle>`).join('');
+    const dots = data.map((d, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(d[k]).toFixed(1)}" r="3.5" fill="var(--c-${k})"><title>${esc(fmtDate(d.date))} · ${esc(SHORT[k])}: ${d[k]}/5</title></circle>`).join('');
     return (n > 1 ? `<polyline points="${pts}" fill="none" stroke="var(--c-${k})" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>` : '') + dots;
   }).join('');
-  const legend = KEYS.map(k => `<span><i style="background:var(--c-${k})"></i>${esc(LABELS[k])}</span>`).join('');
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Line chart of the last ${n} sessions' ratings out of 5">${g}${xl}${series}</svg><div class="legend">${legend}</div>
-    ${data.length < ss.length ? `<div class="small muted">Sirf last 20 classes dikh rahi hain.</div>` : ''}`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Line chart of the last ${n} classes, six ratings out of 5">${g}${xl}${series}</svg>
+    <div class="legend">${RK.map(k => `<span><i style="background:var(--c-${k})"></i>${esc(SHORT[k])}</span>`).join('')}</div>
+    ${data.length < ss.length ? '<div class="small muted">Showing the last 20 classes only.</div>' : ''}`;
 }
 
-function skillsHTML(st) {
-  const sk = skillStats(st);
-  return `<div class="card">
-    <div class="legend" style="margin:0 0 4px">Skill par click karo, status badalta rahega:
-      ${SKILL_LABEL.map((l, i) => `<span class="chip s${i}" style="cursor:default">${l}</span>`).join('')}</div>
-  </div>` + sk.stages.map(x => `<div class="card">
-    <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
-      <div><h2 style="margin-bottom:0">${esc(x.g.title)}</h2><div class="muted small">${esc(x.g.hint)}</div></div>
-      <div class="small muted">${x.done}/${x.count} pakki · ${x.pct}%</div>
+/* ---------- Topics ---------- */
+function topicsHTML(st) {
+  if (openTopic && TMAP[openTopic]) return topicDetailHTML(st, TMAP[openTopic]);
+  const q = topicSearch.trim().toLowerCase(), nt = nextTopic(st);
+  const list = TOPICS.filter(t => (!lvlFilter || t.level === lvlFilter) &&
+    (!q || (t.title + ' ' + t.vocab.join(' ') + ' ' + t.q.join(' ')).toLowerCase().includes(q)));
+  const filters = [`<button data-act="lvl" data-id="0" aria-pressed="${lvlFilter === 0}">All levels</button>`]
+    .concat(LEVELS.map(L => `<button data-act="lvl" data-id="${L.n}" aria-pressed="${lvlFilter === L.n}">Level ${L.n} · ${esc(L.name)}</button>`)).join('');
+  const desc = lvlFilter ? `<p class="muted small">${esc(lvlOf(lvlFilter).desc)}</p>` : '';
+  return `<div class="card" style="padding:12px"><input type="search" id="tsearch" placeholder="Search topics, words or questions (for example: interview, weather, past)…" value="${esc(topicSearch)}" aria-label="Search topics">
+    <div class="filters" style="margin:10px 0 0">${filters}</div>${desc}</div>
+    <div class="grid topics">${list.map(t => {
+      const s = topicStats(st, t), pct = Math.round(s.well / s.total * 100);
+      return `<button class="tcard${nt && nt.id === t.id ? ' next' : ''}" data-act="open-topic" data-id="${t.id}">
+        <div class="no">TOPIC ${t.n} · LEVEL ${t.level}${nt && nt.id === t.id ? ' · NEXT' : ''}</div>
+        <div class="tt">${esc(t.title)}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px">
+          <span class="chip s${s.status} static">${ST_LABEL[s.status]}</span><span class="small muted">${s.well}/${s.total} answered well</span></div>
+        <div class="bar"><i style="width:${pct}%"></i></div></button>`; }).join('') || '<div class="card empty">No topics found.</div>'}</div>`;
+}
+
+function topicDetailHTML(st, t) {
+  const x = getT(st, t.id), s = topicStats(st, t), L = lvlOf(t.level), pct = Math.round(s.well / s.total * 100);
+  const prev = TOPICS[t.n - 2], next = TOPICS[t.n];
+  const ready = s.status < 3 && pct >= 80 ? '<div class="pill ok" style="margin-top:8px;display:inline-block">80% or more answered well. Ready to mark this topic as Mastered?</div>' : '';
+  const tiers = TIERS.map(tr => `<div class="tier"><h3><span>${tr.name} <span class="muted small" style="text-transform:none;font-weight:400">· ${tr.hint}</span></span></h3>
+    ${t.q.slice(tr.from, tr.to).map((qq, k) => { const i = tr.from + k, v = x.qs[i] || 0; return `<div class="qrow">
+      <button class="qb q${v}" data-act="q" data-id="${t.id}" data-i="${i}" aria-label="Question ${i + 1}: ${Q_LABEL[v]}. Click to change" title="${Q_LABEL[v]}">${Q_ICON[v]}</button>
+      <span class="qt">${i + 1}. ${esc(qq)}</span>${spkBtn(qq)}</div>`; }).join('')}</div>`).join('');
+  return `
+  <div class="no-print" style="margin-bottom:10px"><button class="btn sm" data-act="close-topic">← All topics</button></div>
+  <div class="card">
+    <div class="muted small">TOPIC ${t.n} of ${TOPICS.length} · LEVEL ${L.n} · ${esc(L.name)} (${esc(L.cefr)})</div>
+    <h2 style="font-size:22px;margin:4px 0">${esc(t.title)}</h2>
+    <p style="margin:4px 0">${esc(t.goal)}</p>
+    <div class="no-print" style="margin-top:10px"><div class="small muted" style="margin-bottom:4px">Topic status</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${ST_LABEL.map((l, i) => `<button class="chip s${i}" data-act="status" data-id="${t.id}" data-v="${i}" aria-pressed="${s.status === i}" style="${s.status === i ? 'outline:2px solid var(--brand);outline-offset:2px' : 'opacity:.75'}">${l}</button>`).join('')}</div>
+      ${x.last ? `<div class="small muted" style="margin-top:6px">Last worked on: ${esc(fmtDate(x.last))}</div>` : ''}${ready}</div>
+  </div>
+
+  <div class="box b1"><h3>Key words (tap to hear)</h3><div class="chips">${t.vocab.map(w => `<button type="button" class="vchip" data-say="${esc(w)}">${canSpeak ? '🔊 ' : ''}${esc(w)}</button>`).join('')}</div></div>
+  <div class="box b2"><h3>Key sentences</h3>${t.key.map(k => `<div class="say-line">${spkBtn(k)}<span>${esc(k)}</span></div>`).join('')}</div>
+
+  <div class="card" style="margin-top:12px">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center">
+      <h2 style="margin:0">Speaking questions (${s.total})</h2>
+      <div class="no-print"><button class="btn sm primary" data-act="practice-topic" data-id="${t.id}">Practise these questions</button></div>
     </div>
-    <div class="bar" style="margin:10px 0 4px"><i style="width:${x.pct}%"></i></div>
-    ${x.g.skills.map(([id, label]) => { const v = st.skills[id] || 0; return `<div class="skill">
-      <span>${esc(label)}</span>
-      <button class="chip s${v}" data-act="skill" data-id="${id}" aria-label="${esc(label)}: ${SKILL_LABEL[v]}. Badalne ke liye click karein">${SKILL_LABEL[v]}</button></div>`; }).join('')}
-  </div>`).join('');
+    <div class="legend"><span><b>○</b> Not asked yet</span><span><b>◐</b> Needs more work</span><span><b>✔</b> Answered well</span>
+      <span class="muted">· Tap the circle to change · ${s.well} well, ${s.work} need work</span></div>
+    <div class="bar${pct === 100 ? ' ok' : ''}" style="margin-bottom:6px"><i style="width:${pct}%"></i></div>
+    ${tiers}
+  </div>
+
+  <div class="box b3"><h3>Role play</h3><p style="margin:0">${esc(t.role)}</p></div>
+  <div class="box b4"><h3>Homework</h3><p style="margin:0">${esc(t.home)}</p></div>
+
+  <div class="card no-print" style="margin-top:12px"><h3>Teacher notes for this student</h3>
+    <textarea data-notes-for="${t.id}" placeholder="Mistakes you heard, new words, what to repeat next time…">${esc(x.notes)}</textarea>
+    <div class="small muted" style="margin-top:4px">Saved automatically.</div></div>
+  ${x.notes ? `<div class="print-only box"><h3>Teacher notes</h3><div class="notes">${esc(x.notes)}</div></div>` : ''}
+
+  <div class="no-print" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:8px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" data-act="log-topic" data-id="${t.id}">Log a class on this topic</button>
+      <button class="btn" data-act="print">Print</button></div>
+    <div style="display:flex;gap:8px">
+      ${prev ? `<button class="btn" data-act="open-topic" data-id="${prev.id}">← Previous</button>` : ''}
+      ${next ? `<button class="btn" data-act="open-topic" data-id="${next.id}">Next →</button>` : ''}</div>
+  </div>`;
 }
 
+/* ---------- Speaking practice ---------- */
+function scopeOptions() {
+  return `<option value="all"${pr.scope === 'all' ? ' selected' : ''}>All topics</option>
+    <optgroup label="By level">${LEVELS.map(L => `<option value="L${L.n}"${pr.scope === 'L' + L.n ? ' selected' : ''}>Level ${L.n} · ${esc(L.name)}</option>`).join('')}</optgroup>
+    <optgroup label="Single topic">${TOPICS.map(t => `<option value="${t.id}"${pr.scope === t.id ? ' selected' : ''}>${t.n}. ${esc(t.title)}</option>`).join('')}</optgroup>`;
+}
+function practicePool(st) {
+  const pool = [];
+  for (const t of TOPICS) {
+    if (pr.scope !== 'all' && pr.scope !== t.id && pr.scope !== 'L' + t.level) continue;
+    const x = getT(st, t.id);
+    t.q.forEach((_, i) => {
+      if (pr.tier !== 'all' && tierOf(i).name !== pr.tier) return;
+      const v = x.qs[i] || 0;
+      if (pr.mode === 'new' && v === 2) return;
+      if (pr.mode === 'work' && v !== 1) return;
+      if (pr.mode === 'unasked' && v !== 0) return;
+      pool.push({id: t.id, i});
+    });
+  }
+  return pool;
+}
+function pickQuestion(st) {
+  const pool = practicePool(st);
+  if (!pool.length) { pr.current = null; return 0; }
+  let c = pool[shuffleIdx(pool.length)];
+  if (pool.length > 1 && pr.current) { let tries = 0; while (c.id === pr.current.id && c.i === pr.current.i && tries++ < 8) c = pool[shuffleIdx(pool.length)]; }
+  pr.current = c; return pool.length;
+}
+function practiceHTML(st) {
+  const cur = pr.current && practicePool(st).some(p => p.id === pr.current.id && p.i === pr.current.i) ? pr.current : null;
+  const size = cur ? practicePool(st).length : pickQuestion(st);
+  const c = pr.current, t = c ? TMAP[c.id] : null;
+  const v = c ? (getT(st, c.id).qs[c.i] || 0) : 0;
+  const card = c ? `<div class="card pcard">
+      <div class="muted small">Topic ${t.n}: ${esc(t.title)} · ${esc(tierOf(c.i).name)} question ${c.i + 1}</div>
+      <div class="pq" id="pq">${esc(t.q[c.i])}</div>
+      <div class="tabs-row"><button class="btn" data-say="${esc(t.q[c.i])}">🔊 Read aloud</button>
+        <span class="pill ${v === 2 ? 'ok' : v === 1 ? 'warn' : ''}">${Q_LABEL[v]}</span></div>
+      <div class="tabs-row" style="margin-top:14px"><button class="btn primary" data-act="p-well">✔ Answered well</button>
+        <button class="btn" data-act="p-work">◐ Needs more work</button><button class="btn" data-act="p-skip">Skip →</button></div>
+      <div style="margin-top:16px"><div class="timer" id="timer" aria-live="off">0:00</div>
+        <div class="tabs-row"><button class="btn sm" data-act="timer" data-s="30">30 sec</button><button class="btn sm" data-act="timer" data-s="60">1 min</button>
+        <button class="btn sm" data-act="timer" data-s="120">2 min</button><button class="btn sm" data-act="timer" data-s="0">Stop</button></div></div>
+    </div>
+    <div class="card"><h3>Follow-up questions to keep the student talking</h3>
+      <div class="chips">${FOLLOW_UPS.map(f => `<button type="button" class="vchip" data-say="${esc(f)}">${canSpeak ? '🔊 ' : ''}${esc(f)}</button>`).join('')}</div></div>`
+    : `<div class="card empty"><h2>No questions in this selection</h2><p class="muted">Try "Any question" in the "Which questions" box, or choose another topic or level.</p></div>`;
+  return `<div class="card"><h2>Speaking practice</h2>
+    <p class="muted small" style="margin-top:0">The app picks a question. Ask it, listen to the answer, then mark it. This is the fastest way to build speaking skill.</p>
+    <div class="grid row2">
+      <div><label for="p-scope">Topics</label><select id="p-scope" class="full" data-pr="scope">${scopeOptions()}</select></div>
+      <div><label for="p-tier">Question type</label><select id="p-tier" class="full" data-pr="tier">
+        ${[['all','All types'], ...TIERS.map(x => [x.name, x.name + ' – ' + x.hint])].map(([k, l]) => `<option value="${k}"${pr.tier === k ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select></div>
+      <div><label for="p-mode">Which questions</label><select id="p-mode" class="full" data-pr="mode">
+        ${[['new','New and needs more work'],['unasked','Not asked yet'],['work','Needs more work only'],['any','Any question']].map(([k, l]) => `<option value="${k}"${pr.mode === k ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
+    </div>
+    <div class="small muted" style="margin-top:8px">${size ? size + ' question(s) in this selection' : ''} · Marked in this visit: ${pr.doneNow} · Practised today: ${st.qLog[today()] || 0}</div>
+  </div>${card}`;
+}
+
+/* ---------- Class log ---------- */
 function ratingGroup(key) {
   const cur = formRatings[key];
   return `<div class="field"><label>${esc(LABELS[key])}</label>
-    <div class="rating" data-key="${key}">${[1,2,3,4,5].map(n => `<button type="button" data-act="rate" data-key="${key}" data-val="${n}" aria-pressed="${cur === n}" aria-label="${esc(LABELS[key])} ${RATE_HINT[n]}">${n}</button>`).join('')}</div>
+    <div class="rating">${[1,2,3,4,5].map(n => `<button type="button" data-act="rate" data-key="${key}" data-val="${n}" aria-pressed="${cur === n}" aria-label="${esc(SHORT[key])} ${RATE_HINT[n]}">${n}</button>`).join('')}</div>
     <div class="hint" data-hint="${key}">${cur ? RATE_HINT[cur] : ''}</div></div>`;
 }
-
-function sessionsHTML(st) {
+function topicSelect(selected, id, name) {
+  return `<select id="${id}" name="${name}" class="full"><option value="">— Choose a topic —</option>
+    ${LEVELS.map(L => `<optgroup label="Level ${L.n} · ${esc(L.name)}">${TOPICS.filter(t => t.level === L.n).map(t => `<option value="${t.id}"${selected === t.id ? ' selected' : ''}>${t.n}. ${esc(t.title)}</option>`).join('')}</optgroup>`).join('')}</select>`;
+}
+function logHTML(st) {
   const ed = editingSession ? st.sessions.find(s => s.id === editingSession) : null;
-  const v = ed || {date: today(), minutes: 30, topic: '', newWords: 0, homework: 'na', notes: '', next: ''};
+  const v = ed || {date: today(), minutes: 30, topic: logTopic, other: '', qCount: st.qLog[today()] || 0, homework: 'na', notes: '', next: ''};
   const list = sortedSessions(st).reverse();
-  return `<div class="card">
-    <h2>${ed ? 'Class edit karo' : 'Aaj ki class likho'}</h2>
+  return `<div class="card"><h2>${ed ? 'Edit class' : 'Log today\'s class'}</h2>
     <form data-form="session" novalidate>
       <div class="grid row2">
         <div class="field"><label for="s-date">Date</label><input type="date" id="s-date" name="date" value="${esc(v.date)}" required></div>
-        <div class="field"><label for="s-min">Kitne minute</label><input type="number" id="s-min" name="minutes" min="1" max="600" value="${esc(v.minutes)}" required></div>
-        <div class="field"><label for="s-new">Naye words sikhaye</label><input type="number" id="s-new" name="newWords" min="0" max="500" value="${esc(v.newWords)}"></div>
-        <div class="field"><label for="s-hw">Pichla homework</label>
-          <select id="s-hw" name="homework" style="width:100%">${Object.entries(HW).map(([k, l]) => `<option value="${k}"${v.homework === k ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
+        <div class="field"><label for="s-min">Minutes</label><input type="number" id="s-min" name="minutes" min="1" max="600" value="${esc(v.minutes)}" required></div>
+        <div class="field"><label for="s-q">Speaking questions practised</label><input type="number" id="s-q" name="qCount" min="0" max="500" value="${esc(v.qCount)}"></div>
+        <div class="field"><label for="s-hw">Previous homework</label><select id="s-hw" name="homework" class="full">${Object.entries(HW).map(([k, l]) => `<option value="${k}"${v.homework === k ? ' selected' : ''}>${l}</option>`).join('')}</select></div>
       </div>
-      <div class="field"><label for="s-topic">Aaj kya padhaya? *</label><input type="text" id="s-topic" name="topic" maxlength="200" value="${esc(v.topic)}" placeholder="e.g. Letters A–F ki sound, My name is..." required></div>
-      <div class="grid row2">${KEYS.map(ratingGroup).join('')}</div>
-      <div class="field"><label for="s-notes">Teacher notes (kya accha hua, kahan galti hui)</label><textarea id="s-notes" name="notes" maxlength="2000">${esc(v.notes)}</textarea></div>
-      <div class="field"><label for="s-next">Agle class ka plan / homework</label><textarea id="s-next" name="next" maxlength="1000">${esc(v.next)}</textarea></div>
+      <div class="grid row2">
+        <div class="field"><label for="s-topic">Topic taught</label>${topicSelect(v.topic, 's-topic', 'topic')}</div>
+        <div class="field"><label for="s-other">Or other topic (free text)</label><input type="text" id="s-other" name="other" maxlength="200" value="${esc(v.other)}" placeholder="Anything not in the list"></div>
+      </div>
+      <div class="grid row2">${RK.map(ratingGroup).join('')}</div>
+      <div class="field"><label for="s-notes">Teacher notes (what went well, mistakes to fix)</label><textarea id="s-notes" name="notes" maxlength="2000">${esc(v.notes)}</textarea></div>
+      <div class="field"><label for="s-next">Plan for the next class</label><textarea id="s-next" name="next" maxlength="1000">${esc(v.next)}</textarea></div>
       <div class="err" id="sessErr" role="alert"></div>
-      <div class="actions">
-        ${ed ? '<button type="button" class="btn" data-act="cancel-edit">Cancel</button>' : ''}
-        <button class="btn primary" type="submit">${ed ? 'Update karo' : 'Class save karo'}</button>
-      </div>
-    </form>
-  </div>
-  <div class="card">
-    <h2>Pichli classes (${list.length})</h2>
-    ${list.length ? list.map(s => `<div class="session">
-      <div class="session-head">
-        <div><b>${esc(fmtDate(s.date))}</b> · ${s.minutes} min · <span class="muted">${esc(s.topic)}</span></div>
-        <div><button class="btn sm" data-act="edit-session" data-id="${esc(s.id)}">Edit</button>
-             <button class="btn sm danger" data-act="del-session" data-id="${esc(s.id)}">Delete</button></div>
-      </div>
-      <div class="pills">
-        <span class="pill">Avg ${sessionAvg(s).toFixed(1)}/5</span>
-        ${KEYS.map(k => `<span class="pill">${esc(LABELS[k].split(' ')[0])} ${s[k]}</span>`).join('')}
-        ${s.newWords ? `<span class="pill">+${s.newWords} words</span>` : ''}
-        <span class="pill ${HW_CLASS[s.homework]}">${HW[s.homework]}</span>
-      </div>
-      ${s.notes ? `<div class="notes">${esc(s.notes)}</div>` : ''}
-      ${s.next ? `<div class="notes muted"><b>Next:</b> ${esc(s.next)}</div>` : ''}
-    </div>`).join('') : '<p class="muted">Abhi koi class nahi likhi.</p>'}
+      <div class="actions">${ed ? '<button type="button" class="btn" data-act="cancel-edit">Cancel</button>' : ''}<button class="btn primary" type="submit">${ed ? 'Update class' : 'Save class'}</button></div>
+    </form></div>
+  <div class="card"><h2>Past classes (${list.length})</h2>
+    ${list.length ? list.map(s => { const tp = TMAP[s.topic]; return `<div class="session">
+      <div class="session-head"><div><b>${esc(fmtDate(s.date))}</b> · ${s.minutes} min · <span class="muted">${esc(tp ? tp.n + '. ' + tp.title : s.other || 'No topic')}</span></div>
+        <div><button class="btn sm" data-act="edit-session" data-id="${esc(s.id)}">Edit</button> <button class="btn sm danger" data-act="del-session" data-id="${esc(s.id)}">Delete</button></div></div>
+      <div class="pills"><span class="pill">Average ${sessionAvg(s).toFixed(1)}/5</span>${RK.map(k => `<span class="pill">${esc(SHORT[k])} ${s[k]}</span>`).join('')}
+        ${s.qCount ? `<span class="pill">${s.qCount} questions</span>` : ''}<span class="pill ${HW_CLASS[s.homework]}">${HW[s.homework]}</span></div>
+      ${s.notes ? `<div class="notes">${esc(s.notes)}</div>` : ''}${s.next ? `<div class="notes muted"><b>Next:</b> ${esc(s.next)}</div>` : ''}</div>`; }).join('') : '<p class="muted">No classes logged yet.</p>'}
   </div>`;
 }
 
-function wordsHTML(st) {
-  const q = wordFilter.trim().toLowerCase();
-  const list = [...st.words].reverse().filter(w => !q || w.word.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q));
-  const counts = [0, 1, 2].map(i => st.words.filter(w => w.status === i).length);
-  return `<div class="card">
-    <h2>Naya word add karo</h2>
-    <form data-form="word" class="grid row2" novalidate>
-      <div class="field"><label for="w-word">English word *</label><input type="text" id="w-word" name="word" maxlength="60" required placeholder="apple"></div>
-      <div class="field"><label for="w-mean">Matlab (Hindi/Urdu)</label><input type="text" id="w-mean" name="meaning" maxlength="100" placeholder="seb"></div>
-      <div class="field" style="grid-column:1/-1"><label for="w-ex">Example sentence (optional)</label><input type="text" id="w-ex" name="example" maxlength="200" placeholder="I eat an apple."></div>
-      <div class="actions" style="grid-column:1/-1"><button class="btn primary" type="submit">Add word</button></div>
-    </form>
-    <details style="margin-top:8px"><summary class="small" style="cursor:pointer;font-weight:600">Ek saath bahut saare words add karo</summary>
-      <form data-form="bulk" style="margin-top:8px" novalidate>
-        <label for="w-bulk">Har line mein ek word: <code>apple = seb</code></label>
-        <textarea id="w-bulk" name="bulk" rows="5" placeholder="apple = seb&#10;book = kitab&#10;water = paani"></textarea>
-        <div class="actions" style="margin-top:8px"><button class="btn primary" type="submit">Sab add karo</button></div>
-      </form></details>
-  </div>
-  <div class="card">
-    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <h2 style="margin:0">Word list (${st.words.length})</h2>
-      <div class="small muted">Seekh raha: ${counts[0]} · Yaad hai: ${counts[1]} · Bolta hai: ${counts[2]}</div>
-    </div>
-    <input type="text" id="w-search" placeholder="Search word ya matlab..." value="${esc(wordFilter)}" aria-label="Search words" style="margin-bottom:8px">
-    ${list.length ? `<div class="tablewrap"><table>
-      <thead><tr><th>Word</th><th>Matlab</th><th>Status (click karo)</th><th></th></tr></thead>
-      <tbody>${list.map(w => `<tr>
-        <td><b>${esc(w.word)}</b>${w.example ? `<div class="small muted">${esc(w.example)}</div>` : ''}</td>
-        <td>${esc(w.meaning)}</td>
-        <td><button class="chip s${w.status === 0 ? 1 : w.status === 1 ? 2 : 3}" data-act="word-status" data-id="${esc(w.id)}">${WORD_LABEL[w.status]}</button></td>
-        <td><button class="btn sm danger" data-act="del-word" data-id="${esc(w.id)}" aria-label="Delete ${esc(w.word)}">✕</button></td></tr>`).join('')}</tbody>
-    </table></div>` : `<p class="muted">${st.words.length ? 'Koi match nahi mila.' : 'Abhi koi word nahi. Upar se add karein.'}</p>`}
-  </div>`;
-}
-
+/* ---------- Backup & settings ---------- */
 function moreHTML(st) {
-  return `<div class="card">
-    <h2>Student profile</h2>
-    <p><b>${esc(st.name)}</b><br><span class="muted small">Shuru: ${esc(fmtDate(st.start))}${st.goal ? '<br>Goal: ' + esc(st.goal) : ''}${st.notes ? '<br>Notes: ' + esc(st.notes) : ''}</span></p>
-    <button class="btn" data-act="edit-student">Profile edit karo</button>
-  </div>
-  <div class="card">
-    <h2>Backup (zaroor lein!)</h2>
-    <p class="muted small">Data sirf is browser mein save hota hai. Browser data clear karne ya computer badalne par ye ud jayega. Hafte mein ek baar Export karke file Google Drive / WhatsApp par save kar lein.</p>
-    <div class="actions" style="justify-content:flex-start">
-      <button class="btn primary" data-act="export">Backup download karo (.json)</button>
-      <label class="btn" style="margin:0;cursor:pointer">Backup wapas lao
-        <input type="file" id="importFile" accept="application/json,.json" style="display:none"></label>
-    </div>
-  </div>
-  <div class="card">
-    <h2>Theme</h2>
-    <div class="actions" style="justify-content:flex-start">
-      <button class="btn" data-act="theme" data-id="auto">Auto</button>
-      <button class="btn" data-act="theme" data-id="light">Light</button>
-      <button class="btn" data-act="theme" data-id="dark">Dark</button>
-    </div>
-  </div>
-  <div class="card">
-    <h2>Danger zone</h2>
-    <button class="btn danger" data-act="del-student">Is student ka poora data delete karo</button>
-  </div>`;
+  return `<div class="card"><h2>Student profile</h2>
+    <p><b>${esc(st.name)}</b><br><span class="muted small">Started: ${esc(fmtDate(st.start))}${st.goal ? '<br>Goal: ' + esc(st.goal) : ''}${st.notes ? '<br>Notes: ' + esc(st.notes) : ''}</span></p>
+    <button class="btn" data-act="edit-student">Edit profile</button></div>
+  <div class="card"><h2>Set the starting level</h2>
+    <p class="muted small">If the student already knows the basics, mark all topics below a level as Mastered. Topics that are already marked will not be changed down.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><select id="skipLevel" aria-label="Start from level">${LEVELS.map(L => `<option value="${L.n}">Start from Level ${L.n} · ${esc(L.name)}</option>`).join('')}</select>
+    <button class="btn" data-act="skip-levels">Apply</button></div></div>
+  <div class="card"><h2>Backup (please do this often)</h2>
+    <p class="muted small">Your data is saved only in this browser. If you clear browser data or change the computer, it will be lost. Download a backup every week and keep the file safe.</p>
+    <div class="actions" style="justify-content:flex-start"><button class="btn primary" data-act="export">Download backup (.json)</button>
+      <label class="btn" style="margin:0;cursor:pointer">Restore backup<input type="file" id="importFile" accept="application/json,.json" style="display:none"></label></div></div>
+  <div class="card"><h2>Theme</h2><div class="actions" style="justify-content:flex-start">
+    <button class="btn" data-act="theme" data-id="auto">Auto</button><button class="btn" data-act="theme" data-id="light">Light</button><button class="btn" data-act="theme" data-id="dark">Dark</button></div></div>
+  <div class="card"><h2>Danger zone</h2><button class="btn danger" data-act="del-student">Delete all data of this student</button></div>`;
 }
 
-/* ---------- Actions ---------- */
+/* ================= ACTIONS ================= */
+function bumpQ(st) { const d = today(); st.qLog[d] = (st.qLog[d] || 0) + 1; }
+function setQ(st, tid, i, v) {
+  const x = ensureT(st, tid);
+  if (v) { x.qs[i] = v; x.last = today(); if (x.status === 0) x.status = 1; bumpQ(st); } else delete x.qs[i];
+}
 const actions = {
-  'tab': b => { tab = b.dataset.id; render(); },
+  'tab': b => { tab = b.dataset.id; if (tab !== 'topics') openTopic = null; render(); window.scrollTo(0, 0); },
   'new-student': () => openStudentDlg('new'),
   'edit-student': () => openStudentDlg('edit'),
-  'skill': b => {
-    const st = active(); const id = b.dataset.id;
-    st.skills[id] = ((st.skills[id] || 0) + 1) % 4; save(); render();
+  'lvl': b => { lvlFilter = Number(b.dataset.id); render(); },
+  'open-topic': b => { tab = 'topics'; openTopic = b.dataset.id; render(); window.scrollTo(0, 0); },
+  'close-topic': () => { openTopic = null; render(); window.scrollTo(0, 0); },
+  'status': b => { const x = ensureT(active(), b.dataset.id); x.status = Number(b.dataset.v); if (x.status > 0) x.last = today(); save(); render(); },
+  'q': b => {
+    const st = active(), x = getT(st, b.dataset.id), i = Number(b.dataset.i);
+    setQ(st, b.dataset.id, i, ((x.qs[i] || 0) + 1) % 3); save(); render();
   },
+  'practice-topic': b => { pr.scope = b.dataset.id; pr.current = null; pr.mode = 'any'; tab = 'practice'; render(); window.scrollTo(0, 0); },
+  'log-topic': b => { logTopic = b.dataset.id; editingSession = null; resetRatings(); tab = 'log'; render(); window.scrollTo(0, 0); },
+  'p-well': () => practiceMark(2),
+  'p-work': () => practiceMark(1),
+  'p-skip': () => { pickQuestion(active()); render(); },
+  'timer': b => startTimer(Number(b.dataset.s)),
   'rate': b => {
-    const k = b.dataset.key, n = Number(b.dataset.val);
-    formRatings[k] = n;
-    document.querySelectorAll(`.rating[data-key="${k}"] button`).forEach(x => x.setAttribute('aria-pressed', String(Number(x.dataset.val) === n)));
+    const k = b.dataset.key, n = Number(b.dataset.val); formRatings[k] = n;
+    b.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(Number(x.dataset.val) === n)));
     $(`[data-hint="${k}"]`).textContent = RATE_HINT[n];
   },
   'edit-session': b => {
     const s = active().sessions.find(x => x.id === b.dataset.id); if (!s) return;
-    editingSession = s.id;
-    formRatings = {speaking: s.speaking, listening: s.listening, pronunciation: s.pronunciation, confidence: s.confidence};
-    render(); window.scrollTo(0, 0);
+    editingSession = s.id; formRatings = Object.fromEntries(RK.map(k => [k, s[k]])); render(); window.scrollTo(0, 0);
   },
   'cancel-edit': () => { editingSession = null; resetRatings(); render(); },
   'del-session': b => {
-    if (!confirm('Is class ko delete karna hai?')) return;
+    if (!confirm('Delete this class?')) return;
     const st = active(); st.sessions = st.sessions.filter(x => x.id !== b.dataset.id);
     if (editingSession === b.dataset.id) { editingSession = null; resetRatings(); }
     save(); render();
   },
-  'word-status': b => {
-    const w = active().words.find(x => x.id === b.dataset.id); if (!w) return;
-    w.status = (w.status + 1) % 3; save(); render();
-  },
-  'del-word': b => {
-    const st = active(); st.words = st.words.filter(x => x.id !== b.dataset.id); save(); render();
+  'skip-levels': () => {
+    const lv = Number($('#skipLevel').value), st = active();
+    if (lv <= 1) return toast('Level 1 is the start. Nothing to change.');
+    if (!confirm(`Mark all topics in Levels 1 to ${lv - 1} as Mastered for ${st.name}?`)) return;
+    TOPICS.filter(t => t.level < lv).forEach(t => { const x = ensureT(st, t.id); x.status = 3; if (!x.last) x.last = today(); });
+    save(); render(); toast('Starting level updated');
   },
   'del-student': () => {
     const st = active();
-    if (!confirm(`"${st.name}" ka saara data (classes, words, skills) hamesha ke liye delete ho jayega. Pehle backup le liya hai?`)) return;
-    if (!confirm('Pakka delete karna hai? Ye wapas nahi aayega.')) return;
-    db.students = db.students.filter(s => s.id !== st.id);
-    db.activeId = db.students[0] ? db.students[0].id : null;
-    tab = 'dash'; save(); render(); toast('Student delete ho gaya');
+    if (!confirm(`All data for "${st.name}" (classes, topics, questions) will be deleted for good. Did you take a backup?`)) return;
+    if (!confirm('Are you sure? This cannot be undone.')) return;
+    db.students = db.students.filter(s => s.id !== st.id); db.activeId = db.students[0] ? db.students[0].id : null;
+    tab = 'dash'; openTopic = null; save(); render(); toast('Student deleted');
   },
   'export': () => {
     const blob = new Blob([JSON.stringify(db, null, 2)], {type: 'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = `english-tracker-backup-${today()}.json`;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-    toast('Backup download ho gaya');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `english-course-backup-${today()}.json`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); toast('Backup downloaded');
   },
   'theme': b => {
     const t = b.dataset.id;
@@ -665,112 +2092,102 @@ const actions = {
   },
   'print': () => window.print()
 };
-function resetRatings() { formRatings = {speaking: 0, listening: 0, pronunciation: 0, confidence: 0}; }
+function practiceMark(v) {
+  const st = active(), c = pr.current; if (!c) return;
+  setQ(st, c.id, c.i, v); pr.doneNow++; save(); pickQuestion(st); render();
+}
+function startTimer(sec) {
+  clearInterval(timerId); timerId = null;
+  const el = $('#timer'); if (!el) return;
+  const fmt = s => `${Math.floor(s / 60)}:${pad(s % 60)}`;
+  if (!sec) { el.textContent = '0:00'; return; }
+  let left = sec; el.textContent = fmt(left);
+  timerId = setInterval(() => {
+    left--; const e = $('#timer'); if (e) e.textContent = fmt(Math.max(left, 0));
+    if (left <= 0) { clearInterval(timerId); timerId = null; toast('Time is up!'); }
+  }, 1000);
+}
 
 document.addEventListener('click', e => {
+  const sayEl = e.target.closest('[data-say]');
+  if (sayEl) { speak(sayEl.dataset.say); return; }
   const b = e.target.closest('[data-act]');
   if (b && actions[b.dataset.act]) actions[b.dataset.act](b, e);
 });
 
-/* ---------- Forms ---------- */
+/* ================= FORMS ================= */
 const dlg = $('#studentDlg');
 function openStudentDlg(mode) {
-  dlgMode = mode;
-  const st = mode === 'edit' ? active() : null;
-  $('#dlgTitle').textContent = st ? 'Profile edit karo' : 'Naya student';
-  $('#f-name').value = st ? st.name : '';
-  $('#f-start').value = st ? st.start : today();
-  $('#f-goal').value = st ? st.goal : '';
-  $('#f-notes').value = st ? st.notes : '';
-  dlg.showModal();
-  $('#f-name').focus();
+  dlgMode = mode; const st = mode === 'edit' ? active() : null;
+  $('#dlgTitle').textContent = st ? 'Edit profile' : 'New student';
+  $('#f-name').value = st ? st.name : ''; $('#f-start').value = st ? st.start : today();
+  $('#f-goal').value = st ? st.goal : ''; $('#f-notes').value = st ? st.notes : '';
+  $('#f-level').innerHTML = LEVELS.map(L => `<option value="${L.n}">Level ${L.n} · ${esc(L.name)} (${esc(L.cefr)})</option>`).join('');
+  $('#f-level-wrap').style.display = st ? 'none' : '';
+  dlg.showModal(); $('#f-name').focus();
 }
-
 document.addEventListener('submit', e => {
-  const f = e.target; const kind = f.dataset.form; if (!kind) return;
-  e.preventDefault();
-  const fd = new FormData(f);
+  const f = e.target, kind = f.dataset.form; if (!kind) return;
+  e.preventDefault(); const fd = new FormData(f);
   if (kind === 'student') {
-    const name = String(fd.get('name') || '').trim();
-    if (!name) return;
+    const name = String(fd.get('name') || '').trim(); if (!name) return;
     const start = okDate(fd.get('start')) ? fd.get('start') : today();
-    if (dlgMode === 'edit' && active()) {
-      Object.assign(active(), {name, start, goal: String(fd.get('goal') || '').trim(), notes: String(fd.get('notes') || '').trim()});
-    } else {
+    if (dlgMode === 'edit' && active()) Object.assign(active(), {name, start, goal: String(fd.get('goal') || '').trim(), notes: String(fd.get('notes') || '').trim()});
+    else {
       const s = normStudent({name, start, goal: fd.get('goal'), notes: fd.get('notes')});
-      db.students.push(s); db.activeId = s.id; tab = 'dash';
+      const lv = clamp(Math.round(num(fd.get('level'))) || 1, 1, 6);
+      TOPICS.filter(t => t.level < lv).forEach(t => { ensureT(s, t.id).status = 3; });
+      db.students.push(s); db.activeId = s.id; tab = 'dash'; openTopic = null;
     }
-    dlg.close(); save(); render(); toast('Save ho gaya');
+    dlg.close(); save(); render(); toast('Saved');
   } else if (kind === 'session') {
-    const err = $('#sessErr');
-    const date = String(fd.get('date') || ''), minutes = Math.round(num(fd.get('minutes')));
-    const topic = String(fd.get('topic') || '').trim();
-    if (!okDate(date)) return void (err.textContent = 'Sahi date daalein.');
-    if (minutes < 1) return void (err.textContent = 'Minutes 1 se zyada hone chahiye.');
-    if (!topic) return void (err.textContent = 'Aaj kya padhaya, wo likhein.');
-    if (KEYS.some(k => !formRatings[k])) return void (err.textContent = 'Chaaron ratings (1–5) select karein.');
+    const err = $('#sessErr'), date = String(fd.get('date') || ''), minutes = Math.round(num(fd.get('minutes')));
+    const topic = TMAP[fd.get('topic')] ? String(fd.get('topic')) : '', other = String(fd.get('other') || '').trim();
+    if (!okDate(date)) return void (err.textContent = 'Please enter a valid date.');
+    if (minutes < 1) return void (err.textContent = 'Minutes must be 1 or more.');
+    if (!topic && !other) return void (err.textContent = 'Choose a topic or write what you taught.');
+    if (RK.some(k => !formRatings[k])) return void (err.textContent = 'Please give all six ratings (1 to 5).');
     const hw = String(fd.get('homework'));
-    const rec = {
-      id: editingSession || uid(), date, minutes, topic,
-      newWords: Math.max(0, Math.round(num(fd.get('newWords')))),
-      homework: ['done','partly','no','na'].includes(hw) ? hw : 'na',
-      ...formRatings,
-      notes: String(fd.get('notes') || '').trim(), next: String(fd.get('next') || '').trim()
-    };
+    const rec = {id: editingSession || uid(), date, minutes, topic, other, qCount: Math.max(0, Math.round(num(fd.get('qCount')))),
+      homework: ['done','partly','no','na'].includes(hw) ? hw : 'na', ...formRatings,
+      notes: String(fd.get('notes') || '').trim(), next: String(fd.get('next') || '').trim()};
     const st = active();
     if (editingSession) st.sessions = st.sessions.map(s => s.id === editingSession ? rec : s); else st.sessions.push(rec);
-    editingSession = null; resetRatings(); save(); render(); toast('Class save ho gayi');
-  } else if (kind === 'word') {
-    const word = String(fd.get('word') || '').trim();
-    if (!word) return;
-    active().words.push({id: uid(), word, meaning: String(fd.get('meaning') || '').trim(), example: String(fd.get('example') || '').trim(), status: 0, added: today()});
-    save(); render(); $('#w-word').focus();
-  } else if (kind === 'bulk') {
-    const lines = String(fd.get('bulk') || '').split('\n').map(l => l.trim()).filter(Boolean);
-    let added = 0;
-    for (const line of lines) {
-      const m = line.match(/^(.+?)\s*[=:\-–]\s*(.+)$/);
-      const word = (m ? m[1] : line).trim(), meaning = m ? m[2].trim() : '';
-      if (!word) continue;
-      active().words.push({id: uid(), word: word.slice(0, 60), meaning: meaning.slice(0, 100), example: '', status: 0, added: today()}); added++;
-    }
-    save(); render(); toast(added + ' words add hue');
+    if (topic && !editingSession) { const x = ensureT(st, topic); x.last = date; if (x.status === 0) x.status = 1; }
+    editingSession = null; logTopic = ''; resetRatings(); save(); render(); toast('Class saved');
   }
 });
-
-dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+dlg.addEventListener('click', ev => { if (ev.target === dlg) dlg.close(); });
 
 document.addEventListener('change', e => {
-  if (e.target.id === 'studentSel') { db.activeId = e.target.value; editingSession = null; resetRatings(); save(); render(); }
-  if (e.target.id === 'importFile') {
-    const file = e.target.files && e.target.files[0]; if (!file) return;
-    const rd = new FileReader();
+  const el = e.target;
+  if (el.id === 'studentSel') { db.activeId = el.value; editingSession = null; openTopic = null; resetRatings(); pr.current = null; save(); render(); }
+  else if (el.dataset.pr) { pr[el.dataset.pr] = el.value; pr.current = null; render(); }
+  else if (el.dataset.notesFor) { ensureT(active(), el.dataset.notesFor).notes = el.value.slice(0, 2000); save(); toast('Notes saved'); }
+  else if (el.id === 'importFile') {
+    const file = el.files && el.files[0]; if (!file) return; const rd = new FileReader();
     rd.onload = () => {
       try {
         const parsed = JSON.parse(String(rd.result));
         if (!parsed || !Array.isArray(parsed.students)) throw new Error('bad');
         const incoming = normDb(parsed);
-        if (!confirm(`Is file mein ${incoming.students.length} student(s) hain. Abhi ka saara data replace ho jayega. Aage badhein?`)) return;
-        db = incoming; tab = 'dash'; save(); render(); toast('Backup wapas aa gaya');
-      } catch (err) { alert('Ye file sahi backup nahi lagti.'); }
+        if (!confirm(`This file has ${incoming.students.length} student(s). It will replace all current data. Continue?`)) return;
+        db = incoming; tab = 'dash'; openTopic = null; save(); render(); toast('Backup restored');
+      } catch (err) { alert('This does not look like a valid backup file.'); }
     };
-    rd.readAsText(file);
-    e.target.value = '';
+    rd.readAsText(file); el.value = '';
   }
 });
 document.addEventListener('input', e => {
-  if (e.target.id === 'w-search') {
-    wordFilter = e.target.value;
-    const pos = e.target.selectionStart;
-    render();
-    const el = $('#w-search'); el.focus(); el.setSelectionRange(pos, pos);
+  if (e.target.id === 'tsearch') {
+    topicSearch = e.target.value; const pos = e.target.selectionStart; render();
+    const el = $('#tsearch'); el.focus(); el.setSelectionRange(pos, pos);
   }
 });
 
-/* ---------- Init ---------- */
+/* ================= INIT ================= */
 try { const t = localStorage.getItem(KEY + '.theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) { /* ignore */ }
 render();
 </script>
 </body>
 </html>
-
